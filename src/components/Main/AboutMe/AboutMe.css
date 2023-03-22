@@ -1,0 +1,250 @@
+.about-me {
+  margin: 0 auto;
+  padding: 110px 70px;
+  max-width: 1280px;
+  box-sizing: border-box;
+  color: #000;
+  background-color: #fff;
+}
+
+.about-me__container {
+  margin: 0;
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+}
+
+.about-me__info-container {
+  padding: 66px 0 85px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.about-me__info-container-data {
+  max-width: 600px;
+}
+
+.about-me__name {
+  margin: 0;
+  padding-bottom: 18px;
+  font-size: 50px;
+  line-height: 58px;
+  font-weight: 400;
+}
+
+.about-me__subtitle {
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.about-me__info {
+  margin: 0;
+  padding: 0 49px 101px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.about-me__contact {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.about-me__contact-source {
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+}
+
+.about-me__photo {
+  max-height: 327px;
+  width: 270px;
+  border-radius: 10px;
+}
+
+.about-me__portfolio {
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1280px;
+}
+
+.about-me__subtitle_portfolio {
+  color: #A0A0A0;
+  font-weight: 400;
+}
+
+.about-me__sources {
+  margin: 0;
+  padding: 50px 0 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+}
+
+.about-me__sources-element {
+  padding-bottom: 18px;
+  border-bottom: 1px solid #E8E8E8;
+  line-height: 0;
+}
+
+.about-me__sources-element:last-of-type {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.about-me__source {
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  transition: opacity .3s linear;
+}
+
+.about-me__source:hover {
+  opacity: .5;
+}
+
+.about-me__source-text {
+  margin: 0;
+  letter-spacing: -0.04em;
+  font-size: 30px;
+  line-height: 50px;
+  font-weight: 400;
+}
+
+.about-me__source-arrow {
+  margin: 5px 6px 0 0;
+  width: 18px;
+  height: 18px;
+  background-image: url(../../../images/arrow.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  align-self: center;
+}
+
+@media screen and (max-width: 800px) {
+  .about-me {
+    padding: 90px 30px 90px 50px;
+  }
+
+  .about-me__info-container {
+    padding-bottom: 0;
+  }
+
+  .about-me__name {
+    padding: 0 0 20px;
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .about-me__subtitle {
+    padding-bottom: 20px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__info {
+    padding-bottom: 70px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__photo {
+    max-height: 307px;
+    width: 255px;
+  }
+
+  .about-me__contact {
+    padding-top: 25px;
+  }
+
+  .about-me__subtitle_portfolio {
+    padding-top: 90px;
+    font-size: 18px;
+  }
+
+  .about-me__sources {
+    padding: 35px 0 15px;
+    gap: 20px;
+  }
+
+  .about-me__sources-element {
+    padding-bottom: 19px;
+    border-bottom: 1px solid #E6E6E6;
+  }
+
+  .about-me__source-text {
+    font-size: 28px;
+  }
+
+  .about-me__source-arrow {
+    margin: 7px 4px 0 0;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .about-me {
+    padding: 70px 14px;
+  }
+
+  .about-me__info-container {
+    flex-direction: column-reverse;
+    padding-top: 60px;
+  }
+
+  .about-me__name {
+    padding: 40px 0 20px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .about-me__subtitle {
+    padding-bottom: 20px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__info {
+    padding: 0 0 40px 0;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__photo {
+    width: 292px;
+    max-height: 352px;
+    align-self: center;
+  }
+
+  .about-me__contact {
+    padding-top: 0;
+  }
+
+  .about-me__subtitle_portfolio {
+    padding-top: 70px;
+    font-size: 14px;
+  }
+
+  .about-me__sources {
+    padding: 10px 0 0;
+    gap: 5px;
+  }
+
+  .about-me__source-text {
+    font-size: 18px;
+  }
+
+  .about-me__source-arrow {
+    margin: 0 4px 3px 0;
+    width: 12px;
+    height: 12px;
+  }
+}

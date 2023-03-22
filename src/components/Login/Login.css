@@ -1,0 +1,39 @@
+.login__form-header {
+  margin: 0;
+  padding: 0 0 5px;
+  color: #A0A0A0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.login__form {
+  padding-bottom: 95px;
+}
+
+.login__input {
+  margin-bottom: 20px;
+  padding: 15px;
+  width: 366px;
+  border: none;
+  background-color: #F9F9F9;
+  border-radius: 8px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+@media screen and (max-width: 420px) {
+  .login__form {
+    padding: 25px 0 0;
+    margin: 0;
+  }
+
+  .login__form-header {
+    padding-bottom: 10px;
+  }
+
+  .login__input {
+    width: 230px;
+  }
+}
