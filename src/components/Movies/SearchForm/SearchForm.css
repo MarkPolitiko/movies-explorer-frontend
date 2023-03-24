@@ -1,0 +1,142 @@
+.search-form {
+  margin: 0 auto;
+  max-width: 1140px;
+  /* width: 120%; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form__container {
+  margin: 60px 70px 30px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 9px;
+  width: 100%;
+}
+
+.search-form__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.search-form__input {
+  width: calc(100% - 165px);
+  border: 0;
+  text-align: center;
+  padding: 25px 0 15px;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 34px;
+  color: #A0A0A0;
+  display: block;
+}
+
+.search-form__button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 0;
+  background-image: url("../../../images/search-logo-black.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+
+}
+
+.search-form__button:hover {
+  opacity: 0.8;
+}
+
+.search-form__icon {
+  padding: 10px 6px 0;
+  height: 34px;
+  width: 34px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  transition: .2s;
+  outline: none;
+}
+
+.search-form__button:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1180px) {
+  .search-form {
+    margin: 0 auto;
+    width: calc(100% - 60px);
+  }
+
+  .search-form__input {
+    width: calc(100% - 155px);
+  }
+
+  .search-form__button:after {
+    left: 35px;
+  }
+
+  .search-form__button:after {
+    display: block
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  .search-form {
+    margin: 0 auto;
+    width: calc(100% - 15px);
+  }
+
+  .search-form__container {
+    margin: 75px auto 30px;
+  }
+
+  .search-form__icon {
+    padding-left: 30px;
+    padding-right: 0;
+  }
+
+  .search-form__input {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .search-form__container {
+    margin: 80px auto 35px auto;
+    flex-direction: column;
+  }
+
+  .search-form {
+    margin: 0 0 0 15px;
+    width: 95%;
+  }
+
+  .search-form__icon {
+    display: none;
+  }
+
+  .search-form__button:after {
+    display: none
+  }
+
+  .search-form__container {
+    width: 100%
+  }
+
+  .search-form__input {
+    padding-top: 15px;
+    text-align: left;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
