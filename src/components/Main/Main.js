@@ -12,10 +12,12 @@ export default function Main() {
   return (
     <div className="main-container">
       <Header />
-      <Promo />
-      <AboutProject />
-      <Techs />
-      <AboutMe />
+      <main>
+        <Promo />
+        <AboutProject />
+        <Techs />
+        <AboutMe />
+      </main>
       <Footer />
     </div>
   );
