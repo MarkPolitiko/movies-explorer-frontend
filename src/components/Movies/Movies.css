@@ -11,7 +11,7 @@
 
 .movies {
   margin: 0 auto;
-  width: calc(100% - 140px);
+  width: 100%;
 }
 
 .button__more {
@@ -25,7 +25,7 @@
   font-weight: 500;
   line-height: 15px;
   margin: 0 auto;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   padding: 0;
 }
 .button__more:hover {
@@ -56,6 +56,7 @@
   .button__more {
     width: 240px;
     height: 36px;
+    margin-bottom: 150px;
   }
 
   .movies__table {

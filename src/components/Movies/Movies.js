@@ -18,7 +18,7 @@ export default function Movies({ setMenuOpened, menuOpened, menuClosed }) {
         {moviesDB.map((movie) => {
           return (
             <MoviesCard
-              id={movie.id}
+              key={movie.id}
               nameRU={movie.nameRU}
               duration={movie.duration}
               image={movie.image}

@@ -1,6 +1,6 @@
 .about-project {
   margin: 0 auto;
-  padding: 110px 70px;
+  padding: 110px 60px 110px 70px;
   max-width: 1280px;
   box-sizing: border-box;
   color: #000;
@@ -69,7 +69,7 @@
 
   .about-project__info {
     padding-bottom: 93px;
-    gap: 60px;
+    gap: 35px;
   }
 
   .about-project__title {
@@ -88,13 +88,14 @@
 
 @media screen and (max-width: 660px) {
   .about-project {
-    padding: 75px 18px;
+    padding: 70px 18px;
   }
 
   .about-project__info {
     padding-top: 60px;
     padding-bottom: 4px;
     flex-direction: column;
+    gap: 60px;
   }
 
   .about-project__title {

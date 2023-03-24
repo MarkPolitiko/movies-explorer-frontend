@@ -132,7 +132,7 @@
 
 @media screen and (max-width: 800px) {
   .about-me {
-    padding: 90px 30px 90px 50px;
+    padding: 90px 50px 90px 50px;
   }
 
   .about-me__info-container {
@@ -192,7 +192,7 @@
 
 @media screen and (max-width: 660px) {
   .about-me {
-    padding: 70px 14px;
+    padding: 75px 14px;
   }
 
   .about-me__info-container {
@@ -236,6 +236,10 @@
   .about-me__sources {
     padding: 10px 0 0;
     gap: 5px;
+  }
+
+  .about-me__sources-element {
+    padding-bottom: 15px;
   }
 
   .about-me__source-text {

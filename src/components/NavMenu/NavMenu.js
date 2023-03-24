@@ -6,7 +6,7 @@ import logo from "../../images/logo.svg";
 
 export default function NavMenu({ setIsOpened }) {
   function handleOpen() {
-    setIsOpened(true)
+    setIsOpened(true);
   }
 
   return (
@@ -22,9 +22,11 @@ export default function NavMenu({ setIsOpened }) {
           Сохраненные фильмы
         </NavLink>
       </div>
-      <Link to="/profile" className="nav-menu__account">
-        Аккаунт
-      </Link>
+      <div className="nav-menu__account-container">
+        <Link to="/profile" className="nav-menu__account">
+          Аккаунт
+        </Link>
+      </div>
       <button
         onClick={handleOpen}
         type="menu"

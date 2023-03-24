@@ -1,6 +1,6 @@
 .saved-movies {
   margin: 0 auto;
-  width: calc(100% - 140px);
+  width: 100%;
 }
 
 .saved-movies__table {
@@ -16,7 +16,7 @@
 
 @media screen and (max-width: 1160px) {
   .saved-movies {
-    width: 100%;
+    width: 90%;
   }
 
   .saved-movies__table {
@@ -26,6 +26,17 @@
     padding-top: 80px;
     padding-left: 20px;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .saved-movies {
+    width: 100%;
+  }
+
+  .saved-movies__table {
+    padding-bottom: 190px;
+  }
+
 }
 
 @media screen and (max-width: 400px) {

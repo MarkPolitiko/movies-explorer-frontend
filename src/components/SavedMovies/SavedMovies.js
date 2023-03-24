@@ -20,7 +20,7 @@ export default function SavedMovies({
         {savedMoviesDB.map((movie) => {
           return (
             <MoviesCard
-              id={movie.id}
+              key={movie.id}
               nameRU={movie.nameRU}
               duration={movie.duration}
               image={movie.image}

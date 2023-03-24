@@ -20,7 +20,7 @@
 }
 
 .header__link {
-  padding-right: 16px;
+  padding-right: 15px;
   color: #000;
   text-decoration: none;
   font-weight: 500;
@@ -42,8 +42,13 @@
 }
 
 @media screen and (max-width: 800px) {
+
+  .header__link-register {
+    padding-right: 30px;
+  }
+
   .header__container {
-    padding: 0 10px 0 30px;
+    padding: 0 30px 0 30px;
   }
 
 }
@@ -55,6 +60,10 @@
 
   .header__link {
     font-size: 10px;
+  }
+
+  .header__link-register {
+    padding-right: 15px;
   }
 
   .header__link-enter {

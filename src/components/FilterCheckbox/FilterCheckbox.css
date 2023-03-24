@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-left: 15px;
   padding-bottom: 49px;
 }
 
@@ -74,5 +75,10 @@
 @media screen and (max-width: 400px) {
   .checkbox__name {
     font-size: 11px;
+  }
+
+  .checkbox {
+    padding-top: 10px;
+    padding-left: 0;
   }
 }

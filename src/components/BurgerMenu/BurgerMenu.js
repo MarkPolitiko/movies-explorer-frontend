@@ -7,7 +7,7 @@ import closeButton from "../../images/close-button.svg";
 export default function BurgerMenu({ isOpened, menuClosed }) {
   return (
     <>
-      <div className={isOpened ? "burger-menu" : ""}>
+      <div className={isOpened ? "burger-menu" : "burger-menu_hidden"}>
         <div className="burger-menu__container">
           <div className="burger-menu__shadow"></div>
           <nav className="burger-menu__nav-container">

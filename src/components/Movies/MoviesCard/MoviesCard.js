@@ -6,7 +6,7 @@ export default function MoviesCard({
   isMovieSaved,
   nameRU,
   duration,
-  img,
+  image,
   block,
 }) {
   const [isSaved, setIsSaved] = useState(isMovieSaved);
@@ -34,7 +34,7 @@ export default function MoviesCard({
           <button className={"movies-card__delete-button"} type="button" />
         )}
       </div>
-      <img className="movies-card__image" src={img} alt="Кадр из фильма" />
+      <img className="movies-card__image" src={image} alt="Кадр из фильма" />
     </div>
   );
 }

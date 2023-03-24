@@ -6,6 +6,10 @@
   bottom: 0;
 }
 
+.burger-menu_hidden {
+  display: none;
+}
+
 .burger-menu__container {
   position: relative;
 }
