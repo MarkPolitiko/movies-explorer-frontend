@@ -1,10 +1,8 @@
 import React from "react";
-//import { useHistory } from "react-router-dom";
 
 import "./NotFoundPage.css";
 
 export default function NotFoundPage() {
-  //const history = useHistory();
 
   return(
     <section className="not-found-page">

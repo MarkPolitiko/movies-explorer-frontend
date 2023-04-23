@@ -11,7 +11,9 @@ export default function EntryForm({
   questionText,
   url,
   linkText,
+  isValid, onSubmit
 }) {
+
   return (
     <section className="entry-form">
       <div className="entry-form__logo">
@@ -19,12 +21,10 @@ export default function EntryForm({
           <img src={logo} alt="Movie Explorer logo" />
         </Link>
       </div>
+
       <h1 className="entry-form__header">{header}</h1>
       <div className="entry-form__container">{children}</div>
       <div className="entry-form__confirm-container">
-        <button className="entry-form__button" type="submit">
-          {buttonText}
-        </button>
         <NavLink to={url} className="entry-form__caption-container">
           <p className="entry-form__question">{questionText}</p>
           <span className="entry-form__text">{linkText}</span>

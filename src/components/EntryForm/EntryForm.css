@@ -35,6 +35,17 @@
   background-color: #000;
   border: none;
   border-radius: 3px;
+  cursor: pointer;
+  transition: opacity .3s linear;
+}
+
+.entry-form__button:hover {
+  opacity: .6;
+}
+
+.entry-form__button:disabled {
+  opacity: .2;
+  cursor: default;
 }
 
 .entry-form__caption-container {

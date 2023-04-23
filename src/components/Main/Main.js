@@ -8,10 +8,10 @@ import Techs from "./Techs/Techs";
 import AboutMe from "./AboutMe/AboutMe";
 import Footer from "../Footer/Footer";
 
-export default function Main() {
+export default function Main(props) {
   return (
     <div className="main-container">
-      <Header />
+      <Header isloggedIn={props.isLoggedIn} />
       <main>
         <Promo />
         <AboutProject />

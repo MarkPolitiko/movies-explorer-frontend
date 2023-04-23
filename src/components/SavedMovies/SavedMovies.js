@@ -10,6 +10,7 @@ import Footer from "../Footer/Footer";
 import { savedMoviesDB } from "../../utils/constants";
 
 export default function SavedMovies({ setMenuOpened, menuOpened, menuClosed }) {
+
   return (
     <section className="saved-movies">
       <NavMenu setIsOpened={setMenuOpened} />

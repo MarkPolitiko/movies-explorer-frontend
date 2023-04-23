@@ -14,7 +14,7 @@
   width: 100%;
 }
 
-.button__more {
+/* .button__more {
   display: block;
   width: 320px;
   height: 36px;
@@ -30,7 +30,7 @@
 }
 .button__more:hover {
     cursor: pointer;
-}
+} */
 
 @media screen and (max-width: 1160px) {
   .movies {
@@ -53,11 +53,11 @@
 }
 
 @media screen and (max-width: 425px) {
-  .button__more {
+/*   .button__more {
     width: 240px;
     height: 36px;
     margin-bottom: 150px;
-  }
+  } */
 
   .movies__table {
     grid-template-columns: repeat(auto-fill, 300px);

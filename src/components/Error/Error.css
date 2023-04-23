@@ -1,0 +1,8 @@
+.error {
+  color: #FF4062;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  display: inline-block;
+  min-height: 12px;
+}
