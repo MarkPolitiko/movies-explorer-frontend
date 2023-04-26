@@ -248,7 +248,7 @@ function App() {
       setProfileMessage("");
       setIsSuccess(true);
       mainApi
-        .getSavedMovies(token)
+        .getMovies(token)
         .then((movies) => {
           setSavedMovies(movies);
         })
@@ -263,7 +263,7 @@ function App() {
       const token = localStorage.getItem("jwt");
       const searchedMovies = JSON.parse(localStorage.getItem("movies"));
 
-      Promise.all([mainApi.getUserInfo(token), mainApi.getSavedMovies(token)])
+      Promise.all([mainApi.getUserInfo(token), mainApi.getMovies(token)])
         .then(([userData, movies]) => {
           setCurrentUser(userData);
           localStorage.setItem("savedMovies", JSON.stringify(movies));

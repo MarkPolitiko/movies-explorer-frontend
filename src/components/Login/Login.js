@@ -73,13 +73,16 @@ export default function Login(props) {
               {errors?.userPassword}
             </span>
           </label>
-          <span
+          {/* <span
             className={`login__error ${
               props.loginError ? "login__error_active" : null
             }`}
           >
             {props.loginErrMessage}
-          </span>
+          </span> */}
+          <span className={`login__error ${
+                !isValid ? "login__error_active" : null
+              }`}>{props.loginErrMessage}</span>
           <button className="login__button" disabled={!isValid} type="submit">
             Войти
           </button>
