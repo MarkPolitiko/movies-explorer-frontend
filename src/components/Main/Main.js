@@ -11,7 +11,7 @@ import Footer from "../Footer/Footer";
 export default function Main(props) {
   return (
     <div className="main-container">
-      <Header isloggedIn={props.isLoggedIn} />
+      <Header isLoggedIn={props.isLoggedIn} />
       <main>
         <Promo />
         <AboutProject />

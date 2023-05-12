@@ -1,18 +1,18 @@
 import React from "react";
-import { Route, Navigate, Routes } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 export default function ProtectedRoute({ component: Component, ...props }) {
   return (
-    <Routes>
+    <Switch>
       <Route>
         {() =>
           props.isLoggedIn ? (
             <Component {...props} />
           ) : (
-            <Navigate to="/" replace />
+            <Redirect to="/signin" /* replace  */ />
           )
         }
       </Route>
-    </Routes>
+    </Switch>
   );
 }

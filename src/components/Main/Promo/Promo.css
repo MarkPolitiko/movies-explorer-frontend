@@ -1,5 +1,6 @@
 .promo {
   margin: 0 auto;
+  margin-top: -74px;
   padding: 75px 70px;
   max-width: 1280px;
   box-sizing: border-box;
@@ -34,16 +35,17 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
-  opacity: 0.5;
+  /* opacity: 0.5; */
 }
 
 .promo__button {
   width: 129px;
   height: 36px;
-  opacity: 0.6;
+  /* opacity: 0.6; */
   border: 1px solid #000000;
   border-radius: 3px;
   background-color: transparent;
+  /* z-index: 0; */
 }
 
 .promo__about {

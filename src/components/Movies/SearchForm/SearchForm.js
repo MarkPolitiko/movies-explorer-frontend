@@ -1,66 +1,65 @@
-import React, { useState, useEffect } from "react";
-
-import useValidation from "../../../utils/handleValidation";
-import { EMPTY_REQUEST_ERROR } from "../../../utils/constants";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import "./SearchForm.css";
 import logo from "../../../images/search-logo.svg";
-import Error from "../../Error/Error";
-import FilterCheckbox from "../../FilterCheckbox/FilterCheckbox";
+// import FilterCheckbox from "../../FilterCheckbox/FilterCheckbox";
 
 export default function SearchForm(props) {
-
-  const [movieSearch, setMovieSearch] = useState("");
-
-  function handleValue(evt) {
-    props.onSearch(evt.target.value);
-  }
-
-  function handleSearchChange(evt) {
-    setMovieSearch(evt.target.value);
-    props.onSearch(evt.target.value);
-    handleValue(evt);
-  }
+  const location = useLocation();
+  const [movieSearch, setMovieSearch] = useState(props.previousMovieSearch);
 
   function handleSearchMovies(evt) {
     evt.preventDefault();
-    props.onSearchMovies(movieSearch);
-  }
-
-  function handleSearchSavedMovies(evt) {
-    evt.preventDefault();
-    props.onSearchSavedMovies(movieSearch);
+    location.pathname === "/movies"
+      ? props.onSearchMovies(movieSearch)
+      : props.onSavedMoviesSearch(movieSearch);
   }
 
   return (
     <section className="search-form">
       <div className="search-form__container">
-        <form
-          className="search-form__main"
-          name="form-search"
-          id="search-form"
-          onSubmit={props.saved ? handleSearchSavedMovies : handleSearchMovies}
-        >
+        <form className="search-form__main" name="search-form" id="search-form">
           <img src={logo} className="search-form__icon" alt="logo"></img>
           <input
             className="search-form__input"
             placeholder="Фильм"
             value={movieSearch || ""}
-            onChange={handleSearchChange}
+            onChange={(evt) => setMovieSearch(evt.target.value)}
             type="text"
             name="movieSearch"
             id="movieSearch"
             required
           />
-          <button type="submit" className="search-form__button"></button>
+          <button
+            type="submit"
+            className="search-form__button"
+            onClick={handleSearchMovies}
+          ></button>
         </form>
       </div>
-      <FilterCheckbox
-        checkboxName="Короткометражки"
-        onChange={props.onShortMoviesCheck}
-        isChecked={props.isChecked}
-        id="switchShortFilm"
-      />
+
+      <div className="search-form__checkbox">
+        <label className="search-form__checkbox-container">
+          <input
+            className="search-form__checkbox-input"
+            type="checkbox"
+            onChange={props.onShortsSwitch}
+            checked={
+              location.pathname === "/movies"
+                ? props.isChecked
+                  ? true
+                  : false
+                : props.savedIsChecked
+                ? true
+                : false
+            }
+            id="short-films"
+          />
+          <span className="search-form__checkbox-span" />
+        </label>
+        <p className="search-form__checkbox-name">Короткометражки</p>
+      </div>
     </section>
   );
 }

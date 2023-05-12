@@ -1,37 +1,38 @@
 import React from "react";
 
 import "./SavedMovies.css";
-import NavMenu from "../NavMenu/NavMenu";
 import SearchForm from "../Movies/SearchForm/SearchForm";
-import MoviesCard from "../Movies/MoviesCard/MoviesCard";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
+import Preloader from "../Movies/Preloader/Preloader";
+import MoviesCardList from "../Movies/MoviesCardList/MoviesCardList";
 
-import { savedMoviesDB } from "../../utils/constants";
-
-export default function SavedMovies({ setMenuOpened, menuOpened, menuClosed }) {
+export default function SavedMovies(props) {
 
   return (
-    <section className="saved-movies">
-      <NavMenu setIsOpened={setMenuOpened} />
-      <main className="main">
-        <SearchForm />
-        <ul className="saved-movies__table">
-          {savedMoviesDB.map((movie) => {
-            return (
-              <MoviesCard
-                key={movie.id}
-                nameRU={movie.nameRU}
-                duration={movie.duration}
-                image={movie.image}
-                block="saved"
-              />
-            );
-          })}
-        </ul>
-        <BurgerMenu isOpened={menuOpened} menuClosed={menuClosed} />
+
+    <>
+      <Header isLoggedIn={props.isLoggedIn} />
+      <main className="saved-movies">
+        <SearchForm
+          onSavedMoviesSearch={props.onSearchMovies}
+          onShortsCheck={props.onShortsCheck}
+          onShortsSwitch={props.onShortsSwitch}
+          // isShortsChecked={isShortsChecked}
+          savedIsChecked={props.savedIsChecked}
+        />
+        {props.isLoading ? (
+          <Preloader isLoading={props.isLoading} isNotFound={props.isNotFound}/>
+        ) : (
+        <MoviesCardList
+          movies={props.movies}
+          button={"saved-movies__delete-button"} /* {props.button} */ // DOUBLECHECK
+          onDeleteMovie={props.onDeleteMovie}
+          savedMovies={props.savedMovies}
+        />
+        )}
       </main>
       <Footer />
-    </section>
+    </>
   );
 }

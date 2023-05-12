@@ -1,13 +1,15 @@
 .nav-menu {
   margin: 0 auto;
-  padding-top: 20px;
-  /*max-width: 1280px;
+  /* padding-top: ; */
+  padding: 0 70px;
+  max-width: 1280px;
   height: 74px;
-  box-sizing: border-box; */
-  width: calc(100% - 130px);
+  box-sizing: border-box;
+  /* width: calc(100% - 130px); */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* background-color: #fff; */
 }
 
 .nav-menu__logo {
@@ -90,6 +92,8 @@
 @media screen and (max-width: 768px) {
   .nav-menu {
     width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   .nav-menu__container {
@@ -114,7 +118,7 @@
 @media screen and (max-width: 420px) {
   .nav-menu {
     margin: 0;
-    padding: 15px 0 16px;
+    padding: 15px 15px 16px;
   }
 
   .nav-menu__burger {

@@ -2,10 +2,6 @@
   margin: 0 auto 0 20px;
 }
 
-/* .register__form {
-  padding-bottom: 80px;
-} */
-
 .register__form-header {
   margin: 0;
   padding: 0 0 5px;
@@ -51,25 +47,26 @@
   cursor: default;
 }
 
-.register__error {
+.register__notice {
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-  color: #FF4062;
+
   display: none;
   flex-direction: column;
   max-width: 396px;
   margin-bottom: 10px;
 }
 
-.register__error_active {
+.register__notice_error {
   display: flex;
+  color: #FF4062;
 }
 
-/* .register__error_active-success {
+.register__notice_success {
   display: flex;
   color: #2BE080;
-} */
+}
 
 @media screen and (max-width: 768px) {
   .register {

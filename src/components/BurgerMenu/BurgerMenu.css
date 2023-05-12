@@ -12,6 +12,7 @@
 
 .burger-menu__container {
   position: relative;
+  opacity: 1;
 }
 
 .burger-menu__shadow {
@@ -30,7 +31,7 @@
   min-height: 100vh;
   background-color: #FFFFFF;
   color: #000;
-  z-index: 3;
+  z-index: 5;
   top: 0;
   right: 0;
   display: flex;

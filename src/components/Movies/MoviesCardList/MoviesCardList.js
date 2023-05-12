@@ -3,86 +3,48 @@ import React, { useEffect, useState } from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
+import { useLocation } from "react-router-dom";
 
 export default function MoviesCardList(props) {
+  const location = useLocation();
 
-  useEffect(() => {
-    window.addEventListener("resize", handleWidth);
-  }, []);
-
-  const [cardsAmount, setCardsAmount] = useState(() => {
-    const windowWidth = window.innerWidth;
-    if (windowWidth < 480) {
-      return 5;
-    } else if (windowWidth <= 768) {
-      return 8;
-    } else if (windowWidth < 1280) {
-      return 12;
-    } else if (windowWidth > 1280) {
-      return 12;
-    }
-  });
-  const [addedCards] = useState(() => {
-    const windowWidth = window.innerWidth;
-    if (windowWidth <= 768) {
-      return 2;
-    } else if (windowWidth >= 768 + 1) {
-      return 3;
-    }
-  });
-
-  function handleWidth() {
-    const windowWidth = window.innerWidth;
-    if (windowWidth < 480) {
-      return 5;
-    } else if (windowWidth <= 768) {
-      return 8;
-    } else if (windowWidth < 1280) {
-      return 12;
-    } else if (windowWidth > 1280) {
-      return 12;
-    }
-  }
-
-  const showMovies = props.movies?.slice(0, cardsAmount);
-
-  function handleMoviesAddition() {
-    setCardsAmount((prevState) => {
-      return prevState + addedCards;
-    });
-  }
+  const movies = props.movies;
 
   return (
     <section className="movies-card-list">
-      {props.isLoading && <Preloader />}
-      {props.MoviesnotFound && <span>Ничего не найдено</span>}
       <ul className="movies-card-list__table">
-        {showMovies?.map((movie) => (
-          <MoviesCard
-            key={props.saved ? movie._id : movie.id}
-            movie={movie}
-            saved={movie.saved}
-            onMovieSave={props.onMovieSave}
-            onDeleteMovie={props.onDeleteMovie}
-          />
-        ))}
+        {location.pathname === "/movies"
+          ? movies.map((movie) => {
+              return (
+                <MoviesCard
+                  key={movie.id}
+                  currentMovie={movie}
+                  image={`https://api.nomoreparties.co/${movie.image.url}`}
+                  nameRU={movie.nameRU}
+                  duration={movie.duration}
+                  button={props.button}
+                  trailer={movie.trailerLink}
+                  onMovieSave={props.onMovieSave}
+                  onDeleteMovie={props.onDeleteMovie}
+                  savedMovies={props.savedMovies}
+                />
+              );
+            })
+          : movies.map((movie) => {
+              return (
+                <MoviesCard
+                  key={movie._id}
+                  currentMovie={movie}
+                  image={movie.image}
+                  nameRU={movie.nameRU}
+                  duration={movie.duration}
+                  button={props.button}
+                  trailer={movie.trailerLink}
+                  onDeleteMovie={props.onDeleteMovie}
+                />
+              );
+            })}
       </ul>
-      <button
-        type="button"
-        onClick={handleMoviesAddition}
-        className={
-          props.saved
-            ? "button__more button__more_hidden"
-            : `button__more ${
-                props.movies?.length === showMovies?.length
-                  ? "button__more_hidden"
-                  : ""
-              }`
-        }
-        aria-label="Еще фильмы"
-      >
-        Ещё
-      </button>
     </section>
   );
 }

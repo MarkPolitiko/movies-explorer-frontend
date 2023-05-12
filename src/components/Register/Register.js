@@ -3,21 +3,22 @@ import React from "react";
 import "./Register.css";
 import EntryForm from "../EntryForm/EntryForm";
 import useValidation from "../../utils/handleValidation";
-import Error from "../Error/Error";
 
 export default function Register(props) {
-  const { values, handleChange, resetForm, errors, isValid } = useValidation();
+  const { values, handleChange, errors, isValid } = useValidation({
+    userName: "",
+    userEmail: "",
+    userPassword: "",
+  });
 
   function handleSubmit(evt) {
     evt.preventDefault();
     if (isValid) {
-      props
-        .onRegister({
-          name: values.userName,
-          email: values.userEmail,
-          password: values.userPassword,
-        })
-        /* .then(resetForm); */
+      props.onRegister({
+        name: values.userName,
+        email: values.userEmail,
+        password: values.userPassword,
+      });
     }
   }
 
@@ -31,26 +32,26 @@ export default function Register(props) {
       >
         <form className="register__form" onSubmit={handleSubmit}>
           <label>
-            <h3 className="register__form-header" htmlFor="userName">
+            <h3 className="register__form-header">
               Имя
             </h3>
+            <input
+              className="register__input"
+              type="text"
+              name="userName"
+              id="userName"
+              placeholder="Имя"
+              value={values.name}
+              onChange={(evt) => handleChange(evt)}
+              minLength="2"
+              maxLength="20"
+              /* readOnly={props.isLoading} */
+              required
+            />
           </label>
-          <input
-            className="register__input"
-            type="text"
-            name="userName"
-            id="userName"
-            value={values.userName || ""}
-            onChange={(evt) => handleChange(evt)}
-            readOnly={props.isLoading}
-            minLength="2"
-            maxLength="20"
-            pattern="[а-яА-Яёa-zA-Z\s-]{2,20}"
-            required
-          />
           <span
-            className={`register__error
-             ${!isValid ? "register__error_active" : null}`}
+            className={`register__notice
+             ${!isValid ? "register__notice_error" : /* null */ ""}`}
           >
             {errors?.userName}
           </span>
@@ -63,15 +64,15 @@ export default function Register(props) {
             type="email"
             name="userEmail"
             id="userEmail"
-            value={values.userEmail || ""}
+            placeholder="Эл.почта"
+            value={values.email}
             onChange={(evt) => handleChange(evt)}
-            readOnly={props.isLoading}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            /* readOnly={props.isLoading} */
             required
           />
           <span
-            className={`register__error
-             ${!isValid ? "register__error_active" : null}`}
+            className={`register__notice
+             ${!isValid ? "register__notice_error" : /* null */ ""}`}
           >
             {errors?.userEmail}
           </span>
@@ -84,18 +85,31 @@ export default function Register(props) {
             type="password"
             name="userPassword"
             id="userPassword"
-            value={values.userPassword || ""}
+            placeholder="Пароль не менее 4 символов"
+            value={values.password}
             onChange={(evt) => handleChange(evt)}
             minLength="4"
             maxLength="20"
-            readOnly={props.isLoading}
+            // readOnly={props.isLoading}
             required
           />
           <span
-            className={`register__error
-             ${!isValid ? "register__error_active" : null}`}
+            className={`register__notice
+             ${!isValid ? "register__notice_error" : /* null */ ""}`}
           >
             {errors?.userPassword}
+          </span>
+          <span
+            className={`register__notice
+             ${
+               props.isRegSuccess
+                 ? "register__notice_success"
+                 : "register__notice_error"
+             }`}
+          >
+            {props.isRegSuccess
+              ? `${props.resMessage}`
+              : `${props.regErrMessage}`}
           </span>
           <button
             className="register__button"
@@ -104,15 +118,6 @@ export default function Register(props) {
           >
             Зарегистрироваться
           </button>
-          {/* <span
-            className={`register__error
-             ${props.isSuccess ? "register__error_active-success" : null}`}
-          >
-            {props.isSuccess
-              ? `${props.profileMessage}`
-              : `${props.errorMessage}`}
-          </span> */}
-          <span className="register__error">{props.errorMessage}</span>
         </form>
       </EntryForm>
     </section>

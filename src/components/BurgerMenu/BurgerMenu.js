@@ -8,9 +8,10 @@ export default function BurgerMenu(props) {
   return (
     <>
       <button
-        onClick={props.handleOpen}
+        onClick={props.onBurgerMenuClick}
         type="menu"
         className="nav-menu__burger"
+        aria-label="Открыть меню"
       ></button>
       <div className={props.isOpened ? "burger-menu" : "burger-menu_hidden"}>
         <div className="burger-menu__container">

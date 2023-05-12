@@ -2,10 +2,12 @@ import React from "react";
 
 import "./Preloader.css";
 
-export default function Preloader() {
+export default function Preloader(props) {
   return (
-    <div className="preloader-container">
-      <div className="preloader"></div>
+    <div className="preloader">
+      <div className="preloader-container">
+        <span className="preloader__picture"></span>
+      </div>
     </div>
   );
 }

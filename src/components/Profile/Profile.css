@@ -46,6 +46,40 @@
   line-height: 13px;
 }
 
+.profile__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  display: none;
+  flex-direction: column;
+  max-width: 396px;
+  margin-bottom: 10px;
+}
+.profile__error_active {
+  display: flex;
+}
+
+.profile__message {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  display: none;
+  flex-direction: column;
+  max-width: 396px;
+  margin-bottom: 10px;
+}
+
+.profile__message_active {
+  display: flex;
+}
+
+.profile__message_success {
+  display: flex;
+  color: #2be04f;
+}
+
 .profile__buttons-container {
   display: flex;
   flex-direction: column;

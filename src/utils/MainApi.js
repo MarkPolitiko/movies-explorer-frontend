@@ -1,118 +1,126 @@
-const BASE_URL = "https://api.movieforyou.nomoredomains.work";
-/* const MOVIEBASE_URL = "https://api.nomoreparties.co/beatfilm-movies";
-const IMAGES_URL = "https://api.nomoreparties.co"; */
+class MainApi {
+  constructor(config) {
+    this._url = config.url;
+    this._headers = config.headers;
+  }
 
-function checkRes(res) {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  _checkRes(res) {
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  }
+
+  register(data) {
+    return fetch(`${this._url}/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then(this._checkRes)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  login(data) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    })
+      .then(this._checkRes)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  checkToken(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then(this._checkRes)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  getUserInfo(token) {
+    return fetch(`${this._url}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(this._checkRes)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  updateProfile(data) {
+    return fetch(`${this._url}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+      }),
+    }).then(this._checkRes);
+  }
+
+  createMovie(movie) {
+    return fetch(`${this._url}/movies`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({
+        country: movie.country || "No data",
+        director: movie.director || "No data",
+        duration: movie.duration || 0,
+        year: movie.year || 0,
+        description: movie.description || "No data",
+        image: `https://api.nomoreparties.co/${movie.image.url}`,
+        trailer: movie.trailerLink,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN || "No data",
+        thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id,
+      }),
+    }).then(this._checkRes);
+  }
+
+  getMovies() {
+    return fetch(`${this._url}/movies`, {
+      method: "GET",
+      headers: this._headers,
+    }).then(this._checkRes);
+  }
+
+  deleteMovie(id) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then(this._checkRes);
+  }
 }
 
-export const register = (name, email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, email, password }),
-  })
-    .then(checkRes)
-    .then((res) => {
-      return res;
-    });
-};
-
-export const login = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then(checkRes)
-    /* .then((data) => {
-      if (data.token) {
-        localStorage.setItem("jwt", data.token);
-        return data;
-      }
-    }); */
-};
-
-export const checkToken = (token) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then(checkRes)
-    .then((data) => data);
-};
-
-export const getUserInfo = () => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-  }).then(checkRes);
-};
-
-export const updateProfile = (data) => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify({ name: data.name, email: data.email }),
-  }).then(checkRes);
-};
-
-export const getMovies = () => {
-  return fetch(`${BASE_URL}/movies`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-  }).then(checkRes);
-};
-
-export const saveMovie = (movie) => {
-  return fetch(`${BASE_URL}/movies/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify({
-      country: movie.country,
-      director: movie.director,
-      duration: movie.duration,
-      year: movie.year,
-      description: movie.description,
-      image: "https://api.nomoreparties.co/" + movie.image.url,
-      trailerLink: movie.trailerLink,
-      nameRU: movie.nameRU,
-      nameEN: movie.nameEN,
-      thumbnail: "https://api.nomoreparties.co/" + movie.image.url,
-      movieId: String(movie.id),
-    }),
-  })
-    .then(checkRes)
-    .then((res) => {
-      return res;
-    });
-};
-
-export const deleteMovie = (movieId) => {
-  return fetch(`${BASE_URL}/movies/${movieId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-  }).then(checkRes);
-};
+export const mainApi = new MainApi({
+  url: "https://api.movieforyou.nomoredomains.work",
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    "Content-Type": "application/json",
+  },
+});

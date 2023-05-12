@@ -1,103 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import "./Movies.css";
 import SearchForm from "./SearchForm/SearchForm";
 import Footer from "../Footer/Footer";
-import MoviesCard from "./MoviesCard/MoviesCard";
-import { moviesDB } from "../../utils/constants";
-import NavMenu from "../NavMenu/NavMenu";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import Header from "../Header/Header";
+import Preloader from "./Preloader/Preloader";
 
 export default function Movies(props) {
-  const [movies, setMovies] = useState([]);
-  const [notFoundMovies, setNotFound] = useState(false);
-  const [isShortsChecked, setShortsChecked] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const saved = false;
-
-  useEffect(() => {
-    setMovies(props.movies);
-    setNotFound(props.notFoundMovies);
-    setIsLoading(props.isLoading);
-  }, [props.movies, props.notFoundMovies, props.isLoading]);
-
-  function handleSearch(searchValue) {
-    setSearchValue(searchValue);
-  }
-
-  function handleSearchFilter(movies, filtered, searchValue) {
-    const regExp = new RegExp(searchValue, "gi");
-
-    return movies.filter((movie) => {
-      if (filtered) {
-        return movie.duration <= 40 && regExp.test(movie.nameRU);
-      } else {
-        return regExp.test(movie.nameRU);
-      }
-    });
-  }
-
-  function handleShortsCheck(evt) {
-    const targetChecked = evt.target.checked;
-    if (targetChecked) {
-      const allMovies = JSON.parse(localStorage.getItem("movies"));
-      const searchSavedResult = handleSearchFilter(
-        allMovies,
-        targetChecked,
-        searchValue
-      );
-      setShortsChecked(true);
-      if (searchSavedResult.length === 0) {
-        setMovies([]);
-        setIsLoading(false);
-        setNotFound(true);
-      } else {
-        setMovies(searchSavedResult);
-        setNotFound(false);
-      }
-    } else {
-      const allMovies = JSON.parse(localStorage.getItem("movies"));
-      const searchSavedResult = handleSearchFilter(
-        allMovies,
-        targetChecked,
-        searchValue
-      );
-      setShortsChecked(false);
-      if (searchSavedResult.length === 0) {
-        setMovies([]);
-        setIsLoading(false);
-        setNotFound(true);
-      } else {
-        setMovies(searchSavedResult);
-        setNotFound(false);
-      }
-    }
-  }
-
   return (
     <section className="movies">
       <Header isLoggedIn={props.isLoggedIn} />
       <main className="main">
         <SearchForm
           onSearchMovies={props.onSearchMovies}
-          onShortsCheck={handleShortsCheck}
-          isShortsChecked={isShortsChecked}
-          saved={saved}
-          onSearch={handleSearch}
+          onShortsSwitch={props.onShortsSwitch}
+          isChecked={props.isChecked}
+          previousMovieSearch={props.previousMovieSearch}
         />
-        <MoviesCardList
-          saved={saved}
-          movies={movies}
-          onMovieSave={props.onMovieSave}
-          onDeleteMovie={props.onDeleteMovie}
-          notFoundMovies={notFoundMovies}
-          isLoading={isLoading}
-        />
+        {props.isLoading ? (
+          <Preloader
+            isLoading={props.isLoading}
+            isNotFound={props.isNotFound}
+          />
+        ) : (
+          <MoviesCardList
+            movies={props.movies}
+            button=/* "movies-card__save-button" */ {props.button} // DOUBLECHECK
+            onMovieSave={props.onMovieSave}
+            onDeleteMovie={props.onDeleteMovie}
+            savedMovies={props.savedMovies}
+          />
+        )}
+        <button
+          className={`movies__add-button ${
+            props.moreMovies ? "movies__add-button_active" : "" //null
+          }`}
+          type="button"
+          onClick={props.showMore}
+          aria-label="Показать ещё фильмы"
+        >
+          Ещё
+        </button>
       </main>
       <Footer />
     </section>

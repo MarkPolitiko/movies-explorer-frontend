@@ -1,15 +1,24 @@
-const IMAGES_URL = "https://api.nomoreparties.co";
+class MoviesApi {
+  constructor(config) {
+    this._url = config.url;
+    this._headers = config.headers;
+  }
 
-function checkRes(res) {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  _checkRes(res) {
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  }
+
+  getMovies() {
+    return fetch(`${this._url}`, {
+      method: "GET",
+      headers: this._headers,
+    }).then(this._checkRes);
+  }
 }
 
-export const getMovies = () => {
-  return fetch(`${IMAGES_URL}/beatfilm-movies`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(checkRes);
-};
+export const moviesApi = new MoviesApi({
+  url: "https://api.nomoreparties.co/beatfilm-movies",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});

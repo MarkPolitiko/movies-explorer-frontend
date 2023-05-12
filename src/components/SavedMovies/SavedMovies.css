@@ -3,48 +3,34 @@
   width: 100%;
 }
 
-.saved-movies__table {
+.saved-movies__delete-button {
+  background: url("../../images/delete-button.svg") no-repeat center
+    center;
   margin: 0;
-  padding: 70px 0 160px;
-  display: grid;
-  grid-template-columns: repeat(3, 364px);
-  grid-auto-rows: 271px;
-  grid-gap: 24px;
-  justify-content: center;
-  list-style: none;
+  padding: 0;
+  border-radius: 36px;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  align-self: center;
+  background-color: #F9F9F9;
+  outline-style: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in;
+}
+
+.saved-movies__delete-button:hover {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 1160px) {
   .saved-movies {
     width: 90%;
   }
-
-  .saved-movies__table {
-    grid-template-columns: repeat(auto-fill, 339px);
-    grid-auto-rows: 258px;
-    grid-gap: 36px 30px;
-    padding-top: 80px;
-    padding-left: 20px;
-  }
 }
 
 @media screen and (max-width: 768px) {
   .saved-movies {
     width: 100%;
-  }
-
-  .saved-movies__table {
-    padding-bottom: 190px;
-  }
-
-}
-
-@media screen and (max-width: 400px) {
-  .saved-movies__table {
-    grid-template-columns: repeat(auto-fill, 300px);
-    grid-auto-rows: 236px;
-    grid-gap: 16px;
-    padding-top: 40px;
-    padding-left: 0;
   }
 }

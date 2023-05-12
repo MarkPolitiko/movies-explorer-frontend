@@ -5,7 +5,7 @@ import "./NavMenu.css";
 import logo from "../../images/logo.svg";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
-export default function NavMenu({ setIsOpened }) {
+export default function NavMenu() {
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 
   function openBurgerMenu() {
@@ -17,29 +17,14 @@ export default function NavMenu({ setIsOpened }) {
   }
 
   useEffect(() => {
-    const closeByClick = (evt) => {
-      if (evt.target.classList.contains("burger-menu")) {
-        closeBurgerMenu();
-      }
-      evt.stopPropagation();
-    };
-    document.addEventListener("click", closeByClick);
-    return () => document.removeEventListener("click", closeByClick);
-  }, []);
-
-  useEffect(() => {
     const closeOnEsc = (evt) => {
-      if (evt.keyCode === 27) { // или evt.key === "Escape"
+      if (evt.keyCode === 27) {
         closeBurgerMenu();
       }
     };
     document.addEventListener("keydown", closeOnEsc);
     return () => document.removeEventListener("keydown", closeOnEsc);
   }, []);
-
-  /*   function handleOpen() {
-    setIsOpened(true);
-  } */
 
   return (
     <nav className="nav-menu">
@@ -61,7 +46,7 @@ export default function NavMenu({ setIsOpened }) {
       </div>
       <BurgerMenu
         isOpened={isBurgerMenuOpened}
-        onHamburgerButtonClick={openBurgerMenu}
+        onBurgerMenuClick={openBurgerMenu}
         onClose={closeBurgerMenu}
       />
     </nav>
