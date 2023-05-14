@@ -35,6 +35,8 @@
   align-self: center;
 }
 
+
+
 .movies-card__save-button {
   background: url("../../../images/save-button.svg") no-repeat center center;
   margin: 0;
@@ -61,7 +63,7 @@
   transform: scale(1.2);
 }
 
-/* .movies-card__delete-button {
+.movies-card__delete-button {
   background: url("../../../images/delete-button.svg") no-repeat center
     center;
   margin: 0;
@@ -79,7 +81,7 @@
 
 .movies-card__delete-button:hover {
   opacity: 0.8;
-} */
+}
 
 .movies-card__image {
   width: 100%;

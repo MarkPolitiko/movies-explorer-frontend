@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useLocation,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 
 import "./App.css";
 import Login from "../Login/Login";
@@ -67,7 +73,7 @@ function App() {
     }
   });
 
-  const [moreMovies, setIsMoreMovies] = useState(false); //setMoreResults
+  const [moreMovies, setIsMoreMovies] = useState(false);
 
   const widthHandler = () => {
     // const windowWidth = window.innerWidth;
@@ -157,7 +163,10 @@ function App() {
     // const jwt = localStorage.getItem("jwt");
     if (isLoggedIn) {
       setIsLoading(true);
-      Promise.all([mainApi.getUserInfo("jwt"), mainApi.getMovies()])
+      Promise.all([
+        mainApi.getUserInfo(localStorage.getItem("jwt")),
+        mainApi.getMovies(),
+      ]) // moviesApi.getMovies()
         .then(([user, movies]) => {
           setCurrentUser(user);
           const userMovies = movies.filter((movie) => movie.owner === user._id);
@@ -183,7 +192,7 @@ function App() {
             if (localStorage.movieSearch) {
               const previousMovieSearch = JSON.parse(
                 localStorage.getItem("movieSearch")
-              ); //что в кавычках
+              );
               setPreviousMovieSearch(previousMovieSearch);
               searchMovies(previousMovieSearch);
               if (localStorage.isShortsChecked) {
@@ -198,23 +207,28 @@ function App() {
   }, []);
 
   function handleRegister(regData) {
-    setIsLoading(true);
 
     mainApi
       .register(regData)
       .then((res) => {
-        if (res._id) {
+        if (res.status !== 400) {
+          setTimeout(() => handleLogin(regData), 1000);
           setCurrentUser(res);
           setIsRegSuccess(true);
-          setIsLoading(false);
-          setTimeout(() => handleLogin(regData), 1000);
           setResMessage("Вы успешно зарегистрированы!");
+          setIsLoading(false);
         }
       })
       .catch((err) => {
-        setRegErrMessage("Что-то пошло не так. Проверьте введенные данные");
-        setIsLoading(false);
-        console.log(err);
+        if (err.status === 409) {
+          setResMessage("Пользователь с таким email уже существует.");
+          setIsLoading(false);
+          console.log(err);
+        } else {
+          setResMessage("Что-то пошло не так. Проверьте введенные данные");
+          setIsLoading(false);
+          console.log(err);
+        }
       });
   }
 
@@ -267,11 +281,11 @@ function App() {
     if (/* allMovies.length === 0 */ !localStorage.movies) {
       moviesApi
         .getMovies()
-        .then((movies) => {
+        .then((/* movies */ res) => {
           // setAllMovies(movies);
           // const searchResult = handleMoviesSearch(movies, params);
-          localStorage.setItem("movies", JSON.stringify(movies));
-          searchResult = movies.filter((movie) => {
+          localStorage.setItem("movies", JSON.stringify(/* movies */ res));
+          searchResult = /* movies */ res.filter((movie) => {
             return movie.nameRU
               .toLowerCase()
               .includes(params.trim().toLowerCase());
@@ -368,12 +382,10 @@ function App() {
   }
 
   function savedShortsCheckClick() {
-    //
     setSavedShortsSearch(!savedShortsSearch);
   }
 
   useEffect(() => {
-    //
     savedShortsProvider();
   }, [savedShortsSearch]);
 
@@ -381,7 +393,9 @@ function App() {
     setNotFound(false);
     if (savedShortsSearch) {
       setSavedShortsCheck(true);
-      const savedShorts = (savedMovies || []).filter((movie) => movie.duration <= 40); // only savedMovies
+      const savedShorts = (savedMovies || []).filter(
+        (movie) => movie.duration <= 40
+      );
       setSavedMovies(savedShorts);
       if (savedShorts.length === 0) {
         setNotFound(true);
@@ -458,12 +472,10 @@ function App() {
             onDeleteMovie={handleDeleteMovie}
             onMovieSave={handleMoviesSave}
             isLoading={isLoading}
-
-            // isShortsChecked={isShortsChecked}
             showMore={handleMoviesAddition}
             savedMovies={savedMovies}
             onShortsSwitch={shortsSwitchCheck}
-            isChecked={isShortsChecked} //
+            isChecked={isShortsChecked}
             previousMovieSearch={previousMovieSearch}
             moreMovies={moreMovies}
           />
@@ -479,10 +491,9 @@ function App() {
             isLoading={isLoading}
             isNotFound={notFound}
             savedMovies={savedMovies}
-            movieSearch={shortsSearch} //
+            movieSearch={shortsSearch}
             onShortsSwitch={savedShortsCheckClick}
             savedIsChecked={savedShortsCheck}
-            //onShortsCheck={savedShortsSearch}
           />
 
           <ProtectedRoute
@@ -499,13 +510,17 @@ function App() {
           />
 
           <Route path="/signup">
-            <Register
-              onRegister={handleRegister}
-              regErrMessage={regErrMessage}
-              isLoading={isLoading}
-              resMessage={resMessage}
-              isRegSuccess={isRegSuccess}
-            />
+            {isLoggedIn ? (
+              <Redirect to="/movies" />
+            ) : (
+              <Register
+                onRegister={handleRegister}
+                regErrMessage={regErrMessage}
+                isLoading={isLoading}
+                resMessage={resMessage}
+                isRegSuccess={isRegSuccess}
+              />
+            )}
           </Route>
 
           <Route path="/signin">

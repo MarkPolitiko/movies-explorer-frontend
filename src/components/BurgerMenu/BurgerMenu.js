@@ -26,25 +26,23 @@ export default function BurgerMenu(props) {
               <img src={closeButton} alt="closeButton" />
             </button>
             <ul className="burger-menu__elements">
-              <li className="burger-menu__element" /* onClick={menuClosed} */>
+              <li className="burger-menu__element">
                 <Link to="/" className="burger-menu__link">
                   Главная
                 </Link>
               </li>
-              <li className="burger-menu__element" /* onClick={menuClosed} */>
+              <li className="burger-menu__element">
                 <Link to="/movies" className="burger-menu__link">
                   Фильмы
                 </Link>
               </li>
-              <li className="burger-menu__element" /* onClick={menuClosed} */>
+              <li className="burger-menu__element">
                 <Link to="/saved-movies" className="burger-menu__link">
                   Сохраненные фильмы
                 </Link>
               </li>
             </ul>
-            <div
-              className="burger-menu__account-element" /* onClick={menuClosed} */
-            >
+            <div className="burger-menu__account-element">
               <Link to="/profile" className="burger-menu__link">
                 Аккаунт
               </Link>

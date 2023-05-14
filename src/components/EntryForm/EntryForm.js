@@ -7,11 +7,9 @@ import logo from "../../images/logo.svg";
 export default function EntryForm({
   header,
   children,
-  buttonText,
   questionText,
   url,
   linkText,
-  isValid, onSubmit
 }) {
 
   return (

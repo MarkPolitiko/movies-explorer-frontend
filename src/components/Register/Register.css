@@ -51,16 +51,15 @@
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-
+  color: #FF4062;
   display: none;
   flex-direction: column;
   max-width: 396px;
   margin-bottom: 10px;
 }
 
-.register__notice_error {
+.register__notice_active {
   display: flex;
-  color: #FF4062;
 }
 
 .register__notice_success {

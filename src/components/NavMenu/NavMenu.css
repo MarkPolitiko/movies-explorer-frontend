@@ -1,15 +1,12 @@
 .nav-menu {
   margin: 0 auto;
-  /* padding-top: ; */
-  padding: 0 70px;
+  padding: 0 30px;
   max-width: 1280px;
   height: 74px;
   box-sizing: border-box;
-  /* width: calc(100% - 130px); */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #fff; */
 }
 
 .nav-menu__logo {
@@ -23,7 +20,6 @@
 
 .nav-menu__container {
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
   width: 265px;
   margin-right: 10px;

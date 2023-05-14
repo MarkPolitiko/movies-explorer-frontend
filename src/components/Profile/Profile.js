@@ -3,13 +3,9 @@ import React, { useRef, useState, useContext, useEffect } from "react";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import useValidation from "../../utils/handleValidation";
-import NavMenu from "../NavMenu/NavMenu";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Header from "../Header/Header";
 
 export default function Profile(props) {
-
-  //const toUppercase = (str) => (!str ? str : str[0].toUpperCase() + str.slice(1));
 
   const userNameRef = useRef("");
   const userEmailRef = useRef("");
@@ -59,7 +55,7 @@ export default function Profile(props) {
                   ref={userNameRef}
                   defaultValue={currentUser.name}
                   onChange={(evt) => handleChange(evt)}
-                  // readOnly={props.isLoading}
+                  readOnly={props.isLoading}
                   required
                 />
               </label>
@@ -74,13 +70,13 @@ export default function Profile(props) {
                   ref={userEmailRef}
                   defaultValue={currentUser.email}
                   onChange={(evt) => handleChange(evt)}
-                  // readOnly={props.isLoading} // or after required???
+                  readOnly={props.isLoading}
                   required
                 />
               </label>
               <span
                 className={`profile__error
-             ${!isValid ? "profile__error_active" : /* null */ ""}`}
+             ${!isValid ? "profile__error_active" : ""}`}
               >
                 {errors?.userName}
                 {errors?.userEmail}

@@ -32,9 +32,7 @@ export default function Register(props) {
       >
         <form className="register__form" onSubmit={handleSubmit}>
           <label>
-            <h3 className="register__form-header">
-              Имя
-            </h3>
+            <h3 className="register__form-header">Имя</h3>
             <input
               className="register__input"
               type="text"
@@ -45,66 +43,70 @@ export default function Register(props) {
               onChange={(evt) => handleChange(evt)}
               minLength="2"
               maxLength="20"
-              /* readOnly={props.isLoading} */
+              readOnly={props.isLoading}
               required
             />
           </label>
           <span
             className={`register__notice
-             ${!isValid ? "register__notice_error" : /* null */ ""}`}
+             ${!isValid ? "register__notice_active" : ""}`}
           >
             {errors?.userName}
           </span>
 
           <label>
             <h3 className="register__form-header">E-mail</h3>
+
+            <input
+              className="register__input"
+              type="email"
+              name="userEmail"
+              id="userEmail"
+              placeholder="Эл.почта"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              value={values.email}
+              onChange={(evt) => handleChange(evt)}
+              readOnly={props.isLoading}
+              required
+            />
           </label>
-          <input
-            className="register__input"
-            type="email"
-            name="userEmail"
-            id="userEmail"
-            placeholder="Эл.почта"
-            value={values.email}
-            onChange={(evt) => handleChange(evt)}
-            /* readOnly={props.isLoading} */
-            required
-          />
           <span
             className={`register__notice
-             ${!isValid ? "register__notice_error" : /* null */ ""}`}
+             ${!isValid ? "register__notice_active" : ""}`}
           >
             {errors?.userEmail}
           </span>
 
           <label>
             <h3 className="register__form-header">Пароль</h3>
+
+            <input
+              className="register__input"
+              type="password"
+              name="userPassword"
+              id="userPassword"
+              placeholder="Пароль не менее 4 символов"
+              value={values.password}
+              onChange={(evt) => handleChange(evt)}
+              minLength="4"
+              maxLength="20"
+              readOnly={props.isLoading}
+              required
+            />
           </label>
-          <input
-            className="register__input"
-            type="password"
-            name="userPassword"
-            id="userPassword"
-            placeholder="Пароль не менее 4 символов"
-            value={values.password}
-            onChange={(evt) => handleChange(evt)}
-            minLength="4"
-            maxLength="20"
-            // readOnly={props.isLoading}
-            required
-          />
           <span
             className={`register__notice
-             ${!isValid ? "register__notice_error" : /* null */ ""}`}
+             ${!isValid ? "register__notice_active" : ""}`}
           >
             {errors?.userPassword}
           </span>
+
           <span
             className={`register__notice
              ${
                props.isRegSuccess
                  ? "register__notice_success"
-                 : "register__notice_error"
+                 : "register__notice_active"
              }`}
           >
             {props.isRegSuccess
@@ -115,6 +117,7 @@ export default function Register(props) {
             className="register__button"
             disabled={!isValid}
             type="submit"
+            aria-label="Зарегистрироваться"
           >
             Зарегистрироваться
           </button>

@@ -18,7 +18,6 @@ export default function SavedMovies(props) {
           onSavedMoviesSearch={props.onSearchMovies}
           onShortsCheck={props.onShortsCheck}
           onShortsSwitch={props.onShortsSwitch}
-          // isShortsChecked={isShortsChecked}
           savedIsChecked={props.savedIsChecked}
         />
         {props.isLoading ? (
@@ -26,11 +25,17 @@ export default function SavedMovies(props) {
         ) : (
         <MoviesCardList
           movies={props.movies}
-          button={"saved-movies__delete-button"} /* {props.button} */ // DOUBLECHECK
+          button={props.button}
           onDeleteMovie={props.onDeleteMovie}
           savedMovies={props.savedMovies}
         />
         )}
+        <span
+        className={`preloader__notFound
+        ${props.isNotFound ? "preloader__notFound_active" : ""}`}
+      >
+        По запросу ничего не найдено
+      </span>
       </main>
       <Footer />
     </>

@@ -1,30 +1,9 @@
-import React, { useState, useLocation, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, } from "react-router-dom";
 
 import "./MoviesCard.css";
 
 export default function MoviesCard(props) {
-
-  // const movie = {
-  //   country: props.movie.country || "Не найдено",
-  //   director: props.movie.director || "Не найдено",
-  //   duration: props.movie.duration || 0,
-  //   year: props.movie.year || "Не найдено",
-  //   description: props.movie.description || "Не найдено",
-  //   image: `https://api.nomoreparties.co${props.movie.image?.url}`,
-  //   trailer: props.movie?.trailerLink,
-  //   nameRU: props.movie.nameRU || "Не найдено",
-  //   nameEN: props.movie.nameEN || "Не найдено",
-  //   thumbnail: `https://api.nomoreparties.co${props.movie.image?.formats?.thumbnail?.url}`,
-  //   movieId: props.movie.id,
-  // };
-
-  // const duration = `${Math.trunc(movie.duration / 60)}ч${movie.duration % 60}м`;
-  // const image = `https://api.nomoreparties.co${props.movie.image?.url}`;
-  // const savedMovies = JSON.parse(localStorage.getItem("saved-movies"));
-  // const currentMovie = savedMovies?.find(
-  //   (movie) => movie.nameRU === props.movie.nameRU
-  // );
 
   const [isSaved, setIsSaved] = useState(false);
 
@@ -58,6 +37,8 @@ export default function MoviesCard(props) {
     }
   };
 
+  const editedDuration = `${Math.trunc(props.duration/60)}ч ${props.duration % 60}м`;
+
   useEffect(() => {
     location.pathname === "/movies" ? saveCheck() : setIsSaved(true);
   }, []);
@@ -66,24 +47,25 @@ export default function MoviesCard(props) {
     <div className="movies-card">
       <div className="movies-card__container">
         <div className="movies-card__info">
-          <h2 className="movies-card__title">{props/* .movie */.nameRU}</h2>
-          <p className="movies-card__duration">{props.duration}</p>
+          <h2 className="movies-card__title">{props.nameRU}</h2>
+          <p className="movies-card__duration">{editedDuration}</p>
         </div>
-        {props.saved ? (
+
+        {props.savedMovies ? (
           <button
             className={`movies-card__save-button ${
-              isSaved ? "movies-card__save-button_saved" : "" // null
+              isSaved ? "movies-card__save-button_saved" : ""
             }`}
-            onClick={isSaved ? handleDelete : handleSave /* handleClick */} // or handleSave???
+            onClick={handleClick}
           />
         ) : (
           <button
-            className={`movies-card__delete-button ${
-              isSaved ? "movies-card__delete-button" : "" //null
-            }`}
-            onClick={handleDelete}
-            type="button"
-          />
+          className={`movies-card__delete-button ${
+            isSaved ? "movies-card__delete-button" : ""
+          }`}
+          onClick={handleDelete}
+          type="button"
+        />
         )}
       </div>
       <Link

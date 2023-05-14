@@ -9,6 +9,7 @@
 }
 
 .promo__content {
+  padding-top: 75px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -35,17 +36,14 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
-  /* opacity: 0.5; */
 }
 
 .promo__button {
   width: 129px;
   height: 36px;
-  /* opacity: 0.6; */
   border: 1px solid #000000;
   border-radius: 3px;
   background-color: transparent;
-  /* z-index: 0; */
 }
 
 .promo__about {

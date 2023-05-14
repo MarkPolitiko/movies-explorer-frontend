@@ -21,12 +21,11 @@ export default function Movies(props) {
         {props.isLoading ? (
           <Preloader
             isLoading={props.isLoading}
-            isNotFound={props.isNotFound}
           />
         ) : (
           <MoviesCardList
             movies={props.movies}
-            button=/* "movies-card__save-button" */ {props.button} // DOUBLECHECK
+            button={props.button}
             onMovieSave={props.onMovieSave}
             onDeleteMovie={props.onDeleteMovie}
             savedMovies={props.savedMovies}
@@ -34,7 +33,7 @@ export default function Movies(props) {
         )}
         <button
           className={`movies__add-button ${
-            props.moreMovies ? "movies__add-button_active" : "" //null
+            props.moreMovies ? "movies__add-button_active" : ""
           }`}
           type="button"
           onClick={props.showMore}
@@ -42,6 +41,12 @@ export default function Movies(props) {
         >
           Ещё
         </button>
+        <span
+        className={`preloader__notFound
+        ${props.isNotFound ? "preloader__notFound_active" : ""}`}
+      >
+        По запросу ничего не найдено
+      </span>
       </main>
       <Footer />
     </section>

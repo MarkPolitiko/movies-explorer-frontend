@@ -37,18 +37,19 @@ export default function Login(props) {
               name="userEmail"
               id="userEmail"
               value={values.email}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               onChange={(evt) => handleChange(evt)}
-              /* readOnly={props.isLoading} */
+              readOnly={props.isLoading}
               required
-            />
+            /></label>
             <span
               className={`login__error ${
-                !isValid ? "login__error_active" : "" //null
+                !isValid ? "login__error_active" : ""
               }`}
             >
               {errors?.userEmail}
             </span>
-          </label>
+
           <label>
             <h3 className="login__form-header">Пароль</h3>
             <input
@@ -59,25 +60,30 @@ export default function Login(props) {
               value={values.password}
               onChange={(evt) => handleChange(evt)}
               minLength="4"
-              /* readOnly={props.isLoading} */
+              readOnly={props.isLoading}
               required
-            />
+            /></label>
             <span
               className={`login__error ${
-                !isValid ? "login__error_active" : "" //null
+                !isValid ? "login__error_active" : ""
               }`}
             >
               {errors?.userPassword}
             </span>
-          </label>
+
           <span
             className={`login__error ${
-              props.loginErr ? "login__error_active" : "" //null
+              props.loginErr ? "login__error_active" : ""
             }`}
           >
             {props.loginErrMessage}
           </span>
-          <button className="login__button" disabled={!isValid} type="submit">
+          <button
+            className="login__button"
+            disabled={!isValid}
+            type="submit"
+            aria-label="Войти"
+          >
             Войти
           </button>
         </form>

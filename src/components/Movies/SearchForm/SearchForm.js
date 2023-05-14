@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 
 import "./SearchForm.css";
 import logo from "../../../images/search-logo.svg";
-// import FilterCheckbox from "../../FilterCheckbox/FilterCheckbox";
 
 export default function SearchForm(props) {
   const location = useLocation();
@@ -11,15 +10,19 @@ export default function SearchForm(props) {
 
   function handleSearchMovies(evt) {
     evt.preventDefault();
-    location.pathname === "/movies"
-      ? props.onSearchMovies(movieSearch)
-      : props.onSavedMoviesSearch(movieSearch);
+      location.pathname === "/movies"
+        ? props.onSearchMovies(movieSearch)
+        : props.onSavedMoviesSearch(movieSearch);
   }
 
   return (
     <section className="search-form">
       <div className="search-form__container">
-        <form className="search-form__main" name="search-form" id="search-form">
+        <form
+          className="search-form__main"
+          name="search-form"
+          id="search-form"
+        >
           <img src={logo} className="search-form__icon" alt="logo"></img>
           <input
             className="search-form__input"
@@ -35,10 +38,10 @@ export default function SearchForm(props) {
             type="submit"
             className="search-form__button"
             onClick={handleSearchMovies}
+            aria-label="Найти фильм"
           ></button>
         </form>
       </div>
-
       <div className="search-form__checkbox">
         <label className="search-form__checkbox-container">
           <input
