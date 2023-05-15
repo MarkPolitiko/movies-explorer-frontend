@@ -39,7 +39,7 @@ export default function Login(props) {
               value={values.email}
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               onChange={(evt) => handleChange(evt)}
-              readOnly={props.isLoading}
+              // readOnly={props.isLoading}
               required
             /></label>
             <span
@@ -60,7 +60,7 @@ export default function Login(props) {
               value={values.password}
               onChange={(evt) => handleChange(evt)}
               minLength="4"
-              readOnly={props.isLoading}
+              // readOnly={props.isLoading}
               required
             /></label>
             <span
