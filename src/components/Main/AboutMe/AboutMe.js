@@ -51,7 +51,7 @@ export default function AboutMe() {
           <li className="about-me__sources-element">
             <Link
               className="about-me__source"
-              to={"https://github.com/MarkPolitiko/how-to-learn"}
+              to={{ pathname: "https://github.com/MarkPolitiko/how-to-learn" }}
               target="_blank"
             >
               <p className="about-me__source-text">Статичный сайт</p>
@@ -61,7 +61,7 @@ export default function AboutMe() {
           <li className="about-me__sources-element">
             <Link
               className="about-me__source"
-              to={"https://github.com/MarkPolitiko/russian-travel"}
+              to={{ pathname: "https://github.com/MarkPolitiko/russian-travel" }}
               target="_blank"
             >
               <p className="about-me__source-text">Адаптивный сайт</p>
@@ -71,7 +71,7 @@ export default function AboutMe() {
           <li className="about-me__sources-element">
             <Link
               className="about-me__source"
-              to={"https://github.com/MarkPolitiko/react-mesto-api-full"}
+              to={{ pathname: "https://github.com/MarkPolitiko/react-mesto-api-full" }}
               target="_blank"
             >
               <p className="about-me__source-text">Одностраничное приложение</p>
