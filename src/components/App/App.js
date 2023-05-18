@@ -161,6 +161,7 @@ function App() {
 
   useEffect(() => {
     // const jwt = localStorage.getItem("jwt");
+    const path = location.pathname; //////////////////////////////
     if (isLoggedIn) {
       setIsLoading(true);
       Promise.all([
@@ -172,7 +173,7 @@ function App() {
           const userMovies = movies.filter((movie) => movie.owner === user._id);
           localStorage.setItem("savedMovies", JSON.stringify(userMovies));
           setSavedMovies(userMovies);
-          history.push("/movies");
+          history.push("/"); ///////////////////////////////////////////////////////////////////////////////////
           setTimeout(() => setIsLoading(false), 1000);
         })
         .catch((err) => console.log(err));
@@ -182,6 +183,7 @@ function App() {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    //const path = location.pathname; //////////////////////////////
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       mainApi
@@ -198,6 +200,7 @@ function App() {
               if (localStorage.isShortsChecked) {
                 setShortsSearch(true);
               }
+              //history.push(path); /////////////////////////////////
             }
           }
           localStorage.removeItem("isShortsChecked");
@@ -207,7 +210,6 @@ function App() {
   }, []);
 
   function handleRegister(regData) {
-
     mainApi
       .register(regData)
       .then((res) => {
@@ -241,19 +243,19 @@ function App() {
     mainApi
       .updateProfile(userData)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser({ name: res.name, email: res.email, _id: res._id });
         setIsProfileRefreshSuccess(true);
         setProfileMessage("Профиль обновлен");
         setIsLoading(false);
         setTimeout(() => setProfileMessage(""), 3000);
-        // }
       })
       .catch((err) => {
-        setIsProfileRefreshSuccess(false);
-        setIsLoading(false);
-        setProfileErrMessage("Что-то пошло не так. Проверьте введенные данные");
-        setTimeout(() => setProfileErrMessage(""), 3000);
-        console.log(err);
+          setIsProfileRefreshSuccess(false);
+          setProfileErrMessage(
+            "Что-то пошло не так. Проверьте введенные данные"
+          );
+          setIsLoading(false);
+          setTimeout(() => setProfileErrMessage(""), 3000);
       });
   }
 
