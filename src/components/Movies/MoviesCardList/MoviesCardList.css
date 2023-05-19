@@ -1,3 +1,10 @@
+.movies-card-list__none {
+  margin: 0;
+  text-align: center;
+  color: #8b8b8b;
+  width: 100%;
+}
+
 .movies-card-list {
   margin: 0 auto;
   width: calc(100% - 140px);

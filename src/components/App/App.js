@@ -24,7 +24,7 @@ function App() {
   const location = useLocation();
   const history = useHistory();
 
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -140,15 +140,14 @@ function App() {
       return;
     }
     setIsLoading(true);
-
     mainApi
       .login(data)
       .then((res) => {
         if (!res) throw new Error("Неправильные имя пользователя или пароль");
         else {
           localStorage.setItem("jwt", res.token);
-          setIsLoading(false);
           setIsLoggedIn(true);
+          setIsLoading(false);
         }
       })
       .catch((err) => {
@@ -160,20 +159,18 @@ function App() {
   }
 
   useEffect(() => {
-    // const jwt = localStorage.getItem("jwt");
-    const path = location.pathname; //////////////////////////////
-    if (isLoggedIn) {
+    if(isLoggedIn) {
       setIsLoading(true);
       Promise.all([
         mainApi.getUserInfo(localStorage.getItem("jwt")),
         mainApi.getMovies(),
-      ]) // moviesApi.getMovies()
+      ])
         .then(([user, movies]) => {
           setCurrentUser(user);
           const userMovies = movies.filter((movie) => movie.owner === user._id);
           localStorage.setItem("savedMovies", JSON.stringify(userMovies));
           setSavedMovies(userMovies);
-          history.push("/"); ///////////////////////////////////////////////////////////////////////////////////
+          history.push("/movies");
           setTimeout(() => setIsLoading(false), 1000);
         })
         .catch((err) => console.log(err));
@@ -183,7 +180,6 @@ function App() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    //const path = location.pathname; //////////////////////////////
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       mainApi
@@ -200,7 +196,6 @@ function App() {
               if (localStorage.isShortsChecked) {
                 setShortsSearch(true);
               }
-              //history.push(path); /////////////////////////////////
             }
           }
           localStorage.removeItem("isShortsChecked");
@@ -210,27 +205,27 @@ function App() {
   }, []);
 
   function handleRegister(regData) {
+    // setProfileMessage(""); //
+    // setProfileErrMessage(""); //
+    setIsLoading(true); //
+
     mainApi
-      .register(regData)
+      .register(regData/* data.name, data.password, data.email */)
       .then((res) => {
-        if (res.status !== 400) {
+        if (res.status !== 400/* res._id */) {
           setTimeout(() => handleLogin(regData), 1000);
           setCurrentUser(res);
           setIsRegSuccess(true);
-          setResMessage("Вы успешно зарегистрированы!");
+          setProfileMessage("Вы успешно зарегистрированы!");
           setIsLoading(false);
+          setTimeout(() => setProfileErrMessage(""), 3000);
+          /* setTimeout(() => handleLogin(regData), 1000); */
         }
       })
-      .catch((err) => {
-        if (err.status === 409) {
-          setResMessage("Пользователь с таким email уже существует.");
+      .catch(() => {
           setIsLoading(false);
-          console.log(err);
-        } else {
-          setResMessage("Что-то пошло не так. Проверьте введенные данные");
-          setIsLoading(false);
-          console.log(err);
-        }
+          setProfileErrMessage("Что-то пошло не так. Проверьте введенные данные");
+          setTimeout(() => setProfileErrMessage(""), 3000);
       });
   }
 
@@ -243,7 +238,7 @@ function App() {
     mainApi
       .updateProfile(userData)
       .then((res) => {
-        setCurrentUser({ name: res.name, email: res.email, _id: res._id });
+        setCurrentUser(/* res */{ name: res.name, email: res.email, _id: res._id });
         setIsProfileRefreshSuccess(true);
         setProfileMessage("Профиль обновлен");
         setIsLoading(false);
@@ -265,8 +260,8 @@ function App() {
       .createMovie(movie)
       .then((savedMovie) => {
         const filmsSaveUpdate = [...savedMovies, savedMovie];
-        localStorage.setItem("savedMovies", JSON.stringify(filmsSaveUpdate));
         setSavedMovies(filmsSaveUpdate);
+        localStorage.setItem("savedMovies", JSON.stringify(filmsSaveUpdate));
       })
       .catch((err) => {
         console.log(err);
@@ -274,9 +269,10 @@ function App() {
   }
 
   function searchMovies(params) {
+    setNotFound(false);
     setIsLoading(true);
     // setMovies([]);
-    setNotFound(false);
+
     localStorage.setItem("movieSearch", JSON.stringify(params));
     let searchResult;
 
@@ -355,8 +351,7 @@ function App() {
     setTimeout(() => setIsLoading(false), 300);
   }
 
-  function shortsSwitchCheck() {
-    //
+  const shortsSwitchCheck = () => {
     setShortsSearch(!shortsSearch);
   }
 
@@ -442,17 +437,17 @@ function App() {
   }
 
   function handleLogOut() {
-    history.push("/");
-    setIsMoreMovies(false);
-    setIsShortsChecked(false);
-    setPreviousMovieSearch("");
-    setLoginErrMessage("");
-    setRegErrMessage("");
+    localStorage.clear();
+    setCurrentUser({});
+    setIsLoggedIn(false);
     setFilteredMovies([]);
     setShowMovies([]);
-    setIsLoggedIn(false);
-    localStorage.clear();
-    setCurrentUser("");
+    setLoginErrMessage("");
+    setRegErrMessage("");
+    setPreviousMovieSearch("");
+    setIsShortsChecked(false);
+    setIsMoreMovies(false);
+    history.push("/");
   }
 
   return (
@@ -512,17 +507,20 @@ function App() {
           />
 
           <Route path="/signup">
-            {isLoggedIn ? (
+            {/* {isLoggedIn ? (
               <Redirect to="/movies" />
-            ) : (
+            ) : ( */}
               <Register
                 onRegister={handleRegister}
-                regErrMessage={regErrMessage}
+                //regErrMessage={regErrMessage}
                 isLoading={isLoading}
-                resMessage={resMessage}
+                //resMessage={resMessage}
                 isRegSuccess={isRegSuccess}
+
+                profileMessage={profileMessage} //
+                profileErrMessage={profileErrMessage} //
               />
-            )}
+            {/* )} */}
           </Route>
 
           <Route path="/signin">

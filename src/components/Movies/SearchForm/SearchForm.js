@@ -29,16 +29,16 @@ export default function SearchForm(props) {
             placeholder="Фильм"
             value={movieSearch || ""}
             onChange={(evt) => setMovieSearch(evt.target.value)}
-            type="text"
-            name="movieSearch"
-            id="movieSearch"
+            type="search"
+            name="movieSearchInput"
+            id="search-form__input-movie"
+            aria-label="поиск фильма"
             required
           />
           <button
             type="submit"
             className="search-form__button"
             onClick={handleSearchMovies}
-            aria-label="Найти фильм"
           ></button>
         </form>
       </div>

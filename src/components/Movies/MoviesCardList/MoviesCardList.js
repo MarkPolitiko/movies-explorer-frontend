@@ -3,6 +3,7 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useLocation } from "react-router-dom";
+import Preloader from "../Preloader/Preloader";
 
 export default function MoviesCardList(props) {
   const location = useLocation();
@@ -10,7 +11,12 @@ export default function MoviesCardList(props) {
   const movies = props.movies;
 
   return (
+    <>
+    {!props.isLoading && movies.length === 0 && <p className="movies-card-list__none">По запросу ничего не найдено</p>}
     <section className="movies-card-list">
+    {props.isLoading ? (
+          <Preloader />
+        ) : (
       <ul className="movies-card-list__table">
         {location.pathname === "/movies"
           ? movies.map((movie) => {
@@ -44,6 +50,8 @@ export default function MoviesCardList(props) {
               );
             })}
       </ul>
+        )}
     </section>
+    </>
   );
 }

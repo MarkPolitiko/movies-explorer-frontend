@@ -66,7 +66,7 @@ export default function Register(props) {
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               value={values.email}
               onChange={(evt) => handleChange(evt)}
-              // readOnly={props.isLoading}
+              //readOnly={props.isLoading}
               required
             />
           </label>
@@ -90,7 +90,7 @@ export default function Register(props) {
               onChange={(evt) => handleChange(evt)}
               minLength="4"
               maxLength="20"
-              // readOnly={props.isLoading}
+              //readOnly={props.isLoading}
               required
             />
           </label>
@@ -110,8 +110,8 @@ export default function Register(props) {
              }`}
           >
             {props.isRegSuccess
-              ? `${props.resMessage}`
-              : `${props.regErrMessage}`}
+              ? `${props.profileMessage}`
+              : `${props.profileErrMessage}`}
           </span>
           <button
             className="register__button"
