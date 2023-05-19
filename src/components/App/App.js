@@ -19,6 +19,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { mainApi } from "../../utils/MainApi";
 import { moviesApi } from "../../utils/MoviesApi";
+import { WINDOW_WIDTH, CARD_AMOUNT, ADDED_CARDS, SHORTS_DURATION } from "../../utils/config";
 
 function App() {
   const location = useLocation();
@@ -55,21 +56,21 @@ function App() {
 
   const [moviesAmount, setMoviesAmount] = useState(() => {
     // const windowWidth = window.innerWidth;
-    if (windowWidth <= 480) {
-      return 5;
-    } else if (windowWidth <= 768) {
-      return 8;
-    } else if (windowWidth > 768) {
-      return 12;
+    if (windowWidth <= WINDOW_WIDTH.MOBILE) {
+      return CARD_AMOUNT.MIN;
+    } else if (windowWidth <= WINDOW_WIDTH.TABLET) {
+      return CARD_AMOUNT.MID;
+    } else if (windowWidth > WINDOW_WIDTH.TABLET) {
+      return CARD_AMOUNT.MAX;
     }
   });
 
   const [addedCards, setAddedCards] = useState(() => {
     // const windowWidth = window.innerWidth;
-    if (windowWidth <= 768) {
-      return 2;
-    } else if (windowWidth > 768) {
-      return 3;
+    if (windowWidth <= WINDOW_WIDTH.TABLET) {
+      return ADDED_CARDS.MIN;
+    } else if (windowWidth > WINDOW_WIDTH.TABLET) {
+      return ADDED_CARDS.MAX;
     }
   });
 
@@ -205,21 +206,17 @@ function App() {
   }, []);
 
   function handleRegister(regData) {
-    // setProfileMessage(""); //
-    // setProfileErrMessage(""); //
-    setIsLoading(true); //
 
     mainApi
-      .register(regData/* data.name, data.password, data.email */)
+      .register(regData)
       .then((res) => {
-        if (res.status !== 400/* res._id */) {
+        if (res.status !== 400) {
           setTimeout(() => handleLogin(regData), 1000);
           setCurrentUser(res);
           setIsRegSuccess(true);
           setProfileMessage("Вы успешно зарегистрированы!");
           setIsLoading(false);
-          setTimeout(() => setProfileErrMessage(""), 3000);
-          /* setTimeout(() => handleLogin(regData), 1000); */
+          setTimeout(() => setProfileErrMessage(""), 1000);
         }
       })
       .catch(() => {
@@ -269,9 +266,10 @@ function App() {
   }
 
   function searchMovies(params) {
-    setNotFound(false);
+
     setIsLoading(true);
     // setMovies([]);
+    setNotFound(false);
 
     localStorage.setItem("movieSearch", JSON.stringify(params));
     let searchResult;
@@ -291,7 +289,7 @@ function App() {
           setMoviesAmount(widthHandler);
           setTimeout(() => setIsLoading(false), 500);
           if (shortsSearch) {
-            const shorts = searchResult.filter((movie) => movie.duration <= 40);
+            const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
             setFilteredMovies(shorts);
             if (shorts.length === 0) {
               setNotFound(true);
@@ -320,7 +318,7 @@ function App() {
       setTimeout(() => setIsLoading(false), 500);
 
       if (shortsSearch) {
-        const shorts = searchResult.filter((movie) => movie.duration <= 40);
+        const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
         setFilteredMovies(shorts);
         if (shorts.length === 0) {
           setNotFound(true);
@@ -364,7 +362,7 @@ function App() {
     if (shortsSearch) {
       setIsShortsChecked(true);
       localStorage.setItem("isShortsChecked", "true");
-      const shorts = filteredMovies.filter((movie) => movie.duration <= 40);
+      const shorts = filteredMovies.filter((movie) => movie.duration <= SHORTS_DURATION);
       handleMoviesRender(shorts, moviesAmount);
       if (shorts.length === 0) {
         setNotFound(true);
@@ -375,6 +373,7 @@ function App() {
       );
       handleMoviesRender(allFilteredMovies, moviesAmount);
       setIsShortsChecked(false);
+      localStorage.setItem("isShortsChecked", "false");///////////////////
     }
   }
 
@@ -391,16 +390,18 @@ function App() {
     if (savedShortsSearch) {
       setSavedShortsCheck(true);
       const savedShorts = (savedMovies || []).filter(
-        (movie) => movie.duration <= 40
+        (movie) => movie.duration <= SHORTS_DURATION
       );
       setSavedMovies(savedShorts);
       if (savedShorts.length === 0) {
         setNotFound(true);
+
       }
     } else {
       const savedFilms = JSON.parse(localStorage.getItem("savedMovies"));
       setSavedMovies(savedFilms);
       setSavedShortsCheck(false);
+      //localStorage.setItem("isShortsChecked", "false");
     }
   }
 
@@ -507,20 +508,20 @@ function App() {
           />
 
           <Route path="/signup">
-            {/* {isLoggedIn ? (
+            {isLoggedIn ? (
               <Redirect to="/movies" />
-            ) : ( */}
+            ) : (
               <Register
                 onRegister={handleRegister}
-                //regErrMessage={regErrMessage}
+                regErrMessage={regErrMessage}
                 isLoading={isLoading}
-                //resMessage={resMessage}
+                resMessage={resMessage}
                 isRegSuccess={isRegSuccess}
 
                 profileMessage={profileMessage} //
                 profileErrMessage={profileErrMessage} //
               />
-            {/* )} */}
+            )}
           </Route>
 
           <Route path="/signin">

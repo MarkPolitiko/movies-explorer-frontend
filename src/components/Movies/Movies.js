@@ -41,12 +41,12 @@ export default function Movies(props) {
           >
             Ещё
           </button>
-          {/* <span
+          <span
             className={`preloader__notFound
         ${props.isNotFound ? "preloader__notFound_active" : ""}`}
           >
             По запросу ничего не найдено
-          </span> */}
+          </span>
         </main>
         <Footer />
       </section>

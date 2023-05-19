@@ -21,7 +21,7 @@ export default function SavedMovies(props) {
           savedIsChecked={props.savedIsChecked}
         />
         {props.isLoading ? (
-          <Preloader isLoading={props.isLoading} />
+          <Preloader isLoading={props.isLoading} isNotFound={props.isNotFound}/>
         ) : (
         <MoviesCardList
           movies={props.movies}
@@ -30,12 +30,12 @@ export default function SavedMovies(props) {
           savedMovies={props.savedMovies}
         />
         )}
-        {/* <span
+        <span
         className={`preloader__notFound
         ${props.isNotFound ? "preloader__notFound_active" : ""}`}
       >
         По запросу ничего не найдено
-      </span> */}
+      </span>
       </main>
       <Footer />
     </>

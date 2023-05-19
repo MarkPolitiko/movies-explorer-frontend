@@ -12,7 +12,6 @@ export default function MoviesCardList(props) {
 
   return (
     <>
-    {!props.isLoading && movies.length === 0 && <p className="movies-card-list__none">По запросу ничего не найдено</p>}
     <section className="movies-card-list">
     {props.isLoading ? (
           <Preloader />
