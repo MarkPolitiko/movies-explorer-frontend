@@ -143,7 +143,7 @@ function App() {
       //setIsLoading(true);
       Promise.all([
         mainApi.getUserInfo(localStorage.getItem("jwt")),
-        mainApi.getMovies(),
+        mainApi.getMovies(localStorage.getItem("jwt")),
       ])
         .then(([user, movies]) => {
           setCurrentUser(user);
@@ -240,7 +240,7 @@ function App() {
     setIsLoading(true);
 
     mainApi
-      .updateProfile(userData)
+      .updateProfile(userData,localStorage.getItem("jwt"))
       .then((res) => {
         setCurrentUser(
           /* res */ { name: res.name, email: res.email, _id: res._id }
@@ -261,7 +261,7 @@ function App() {
   function handleMoviesSave(movie) {
     // const token = localStorage.getItem("jwt");
     mainApi
-      .createMovie(movie)
+      .createMovie(movie,localStorage.getItem("jwt")) // тут правка
       .then((savedMovie) => {
         const filmsSaveUpdate = [
           ...getLocalSavedMovies /* savedMovies */,
@@ -442,7 +442,7 @@ function App() {
   function handleDeleteMovie(movieItem) {
     const checkId = handleIdCheck(movieItem);
     mainApi
-      .deleteMovie(checkId)
+      .deleteMovie(checkId,localStorage.getItem("jwt"))
       .then(() => {
         let updatedSavedMovies;
         if (location.pathname === "/movies") {

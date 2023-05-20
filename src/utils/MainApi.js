@@ -71,10 +71,13 @@ class MainApi {
       });
   }
 
-  updateProfile(data) {
+  updateProfile(data,token) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         name: data.name,
         email: data.email,
@@ -82,10 +85,13 @@ class MainApi {
     }).then(this._checkRes);
   }
 
-  createMovie(movie) {
+  createMovie(movie,token) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
         country: movie.country || "No data",
         director: movie.director || "No data",
@@ -102,17 +108,23 @@ class MainApi {
     }).then(this._checkRes);
   }
 
-  getMovies() {
+  getMovies(token) {
     return fetch(`${this._url}/movies`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._checkRes);
   }
 
-  deleteMovie(id) {
+  deleteMovie(id,token) {
     return fetch(`${this._url}/movies/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     }).then(this._checkRes);
   }
 }
