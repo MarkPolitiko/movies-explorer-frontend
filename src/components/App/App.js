@@ -19,7 +19,12 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { mainApi } from "../../utils/MainApi";
 import { moviesApi } from "../../utils/MoviesApi";
-import { WINDOW_WIDTH, CARD_AMOUNT, ADDED_CARDS, SHORTS_DURATION } from "../../utils/config";
+import {
+  WINDOW_WIDTH,
+  CARD_AMOUNT,
+  ADDED_CARDS,
+  SHORTS_DURATION,
+} from "../../utils/config";
 
 function App() {
   const location = useLocation();
@@ -44,6 +49,8 @@ function App() {
   const [previousMovieSearch, setPreviousMovieSearch] = useState("");
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+
+  const [getLocalSavedMovies, setGetLocalSavedMovies] = useState([]); ///
 
   const [notFound, setNotFound] = useState(false);
 
@@ -160,7 +167,7 @@ function App() {
   }
 
   useEffect(() => {
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       setIsLoading(true);
       Promise.all([
         mainApi.getUserInfo(localStorage.getItem("jwt")),
@@ -170,7 +177,17 @@ function App() {
           setCurrentUser(user);
           const userMovies = movies.filter((movie) => movie.owner === user._id);
           localStorage.setItem("savedMovies", JSON.stringify(userMovies));
+          /* setSavedMovies */ setGetLocalSavedMovies(userMovies); ///////////////////////////////////////////////
           setSavedMovies(userMovies);
+          const previousMovieSearch = JSON.parse(
+            localStorage.getItem("movieSearch")
+          );
+          if (previousMovieSearch === null) {
+            searchMovies("");
+          } else {
+            //setPreviousMovieSearch(previousMovieSearch);
+            searchMovies(previousMovieSearch);
+          }
           history.push("/movies");
           setTimeout(() => setIsLoading(false), 1000);
         })
@@ -208,7 +225,6 @@ function App() {
   }, []);
 
   function handleRegister(regData) {
-
     mainApi
       .register(regData)
       .then((res) => {
@@ -218,13 +234,13 @@ function App() {
           setIsRegSuccess(true);
           setProfileMessage("Вы успешно зарегистрированы!");
           setIsLoading(false);
-          setTimeout(() => setProfileErrMessage(""), 1000);
+          setTimeout(() => setProfileMessage(""), 1000);
         }
       })
       .catch(() => {
-          setIsLoading(false);
-          setProfileErrMessage("Что-то пошло не так. Проверьте введенные данные");
-          setTimeout(() => setProfileErrMessage(""), 3000);
+        setIsLoading(false);
+        setProfileErrMessage("Что-то пошло не так. Проверьте введенные данные");
+        setTimeout(() => setProfileErrMessage(""), 3000);
       });
   }
 
@@ -237,19 +253,19 @@ function App() {
     mainApi
       .updateProfile(userData)
       .then((res) => {
-        setCurrentUser(/* res */{ name: res.name, email: res.email, _id: res._id });
+        setCurrentUser(
+          /* res */ { name: res.name, email: res.email, _id: res._id }
+        );
         setIsProfileRefreshSuccess(true);
         setProfileMessage("Профиль обновлен");
         setIsLoading(false);
         setTimeout(() => setProfileMessage(""), 3000);
       })
       .catch((err) => {
-          setIsProfileRefreshSuccess(false);
-          setProfileErrMessage(
-            "Что-то пошло не так. Проверьте введенные данные"
-          );
-          setIsLoading(false);
-          setTimeout(() => setProfileErrMessage(""), 3000);
+        setIsProfileRefreshSuccess(false);
+        setProfileErrMessage("Что-то пошло не так. Проверьте введенные данные");
+        setIsLoading(false);
+        setTimeout(() => setProfileErrMessage(""), 3000);
       });
   }
 
@@ -258,8 +274,12 @@ function App() {
     mainApi
       .createMovie(movie)
       .then((savedMovie) => {
-        const filmsSaveUpdate = [...savedMovies, savedMovie];
-        setSavedMovies(filmsSaveUpdate);
+        const filmsSaveUpdate = [
+          ...getLocalSavedMovies /* savedMovies */,
+          savedMovie,
+        ];
+        /* setSavedMovies */ setGetLocalSavedMovies(filmsSaveUpdate); ////////////////////////
+        /* setGetLocalSavedMovies */ setSavedMovies(filmsSaveUpdate);
         localStorage.setItem("savedMovies", JSON.stringify(filmsSaveUpdate));
       })
       .catch((err) => {
@@ -268,16 +288,14 @@ function App() {
   }
 
   function searchMovies(params) {
-    setIsShortsChecked(false); ///////////////////////////////////////
+    //setIsShortsChecked(false); ///////////////////////////////////////
     // setMovies([]);
     setNotFound(false);
     setIsLoading(true);
     localStorage.setItem("movieSearch", JSON.stringify(params));
     let searchResult;
 
-    let previousMovieSearch = JSON.parse(
-      localStorage.getItem("movieSearch")
-    );
+    let previousMovieSearch = JSON.parse(localStorage.getItem("movieSearch"));
     setPreviousMovieSearch(previousMovieSearch);
     //searchMovies(previousMovieSearch);
 
@@ -285,6 +303,7 @@ function App() {
       moviesApi
         .getMovies()
         .then((/* movies */ res) => {
+          setShowMovies(res);
           // setAllMovies(movies);
           // const searchResult = handleMoviesSearch(movies, params);
           localStorage.setItem("movies", JSON.stringify(/* movies */ res));
@@ -297,7 +316,9 @@ function App() {
           setTimeout(() => setIsLoading(false), 500);
           if (shortsSearch) {
             setIsShortsChecked(true);
-            const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
+            const shorts = searchResult.filter(
+              (movie) => movie.duration <= SHORTS_DURATION
+            );
             setFilteredMovies(shorts);
             if (shorts.length === 0) {
               setNotFound(true);
@@ -326,7 +347,9 @@ function App() {
       setMoviesAmount(widthHandler);
       setTimeout(() => setIsLoading(false), 500);
       if (shortsSearch) {
-        const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
+        const shorts = searchResult.filter(
+          (movie) => movie.duration <= SHORTS_DURATION
+        );
         setFilteredMovies(shorts);
         if (shorts.length === 0) {
           setNotFound(true);
@@ -360,7 +383,7 @@ function App() {
 
   const shortsSwitchCheck = () => {
     setShortsSearch(!shortsSearch);
-  }
+  };
 
   useEffect(() => {
     shortsProvider();
@@ -371,7 +394,9 @@ function App() {
     if (shortsSearch) {
       setIsShortsChecked(true);
       localStorage.setItem("isShortsChecked", "true");
-      const shorts = filteredMovies.filter((movie) => movie.duration <= SHORTS_DURATION);
+      const shorts = filteredMovies.filter(
+        (movie) => movie.duration <= SHORTS_DURATION
+      );
       handleMoviesRender(shorts, moviesAmount);
       if (shorts.length === 0) {
         setNotFound(true);
@@ -382,7 +407,7 @@ function App() {
       );
       handleMoviesRender(allFilteredMovies, moviesAmount);
       setIsShortsChecked(false);
-      localStorage.setItem("isShortsChecked", "false");///////////////////
+      localStorage.setItem("isShortsChecked", "false"); ///////////////////
     }
   }
 
@@ -405,7 +430,6 @@ function App() {
       setSavedMovies(savedShorts);
       if (savedShorts.length === 0) {
         setNotFound(true);
-
       }
     } else {
       const savedFilms = JSON.parse(localStorage.getItem("savedMovies"));
@@ -442,6 +466,7 @@ function App() {
           );
         }
         localStorage.setItem("savedMovies", JSON.stringify(updatedSavedMovies));
+        /* setSavedMovies */ setGetLocalSavedMovies(updatedSavedMovies); /////////////////////////
         setSavedMovies(updatedSavedMovies);
       })
       .catch((err) => console.log(err));
@@ -481,7 +506,7 @@ function App() {
             onMovieSave={handleMoviesSave}
             isLoading={isLoading}
             showMore={handleMoviesAddition}
-            savedMovies={savedMovies}
+            savedMovies={getLocalSavedMovies} //
             onShortsSwitch={shortsSwitchCheck}
             isChecked={isShortsChecked}
             previousMovieSearch={previousMovieSearch}
@@ -493,12 +518,12 @@ function App() {
             path="/saved-movies"
             isLoggedIn={isLoggedIn}
             component={SavedMovies}
-            movies={savedMovies}
+            movies={savedMovies} ///
             onSearchMovies={searchSavedMovies}
             onDeleteMovie={handleDeleteMovie}
             isLoading={isLoading}
             isNotFound={notFound}
-            savedMovies={savedMovies}
+            savedMovies={savedMovies} //
             movieSearch={shortsSearch}
             onShortsSwitch={savedShortsCheckClick}
             savedIsChecked={savedShortsCheck}
@@ -527,7 +552,6 @@ function App() {
                 isLoading={isLoading}
                 resMessage={resMessage}
                 isRegSuccess={isRegSuccess}
-
                 profileMessage={profileMessage} //
                 profileErrMessage={profileErrMessage} //
               />

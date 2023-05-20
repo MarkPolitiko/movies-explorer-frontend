@@ -118,7 +118,7 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  url: "https://api.movieforyou.nomoredomains.work",
+  url:  "https://api.movieforyou.nomoredomains.work",  //"http://localhost:3000",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "Content-Type": "application/json",
