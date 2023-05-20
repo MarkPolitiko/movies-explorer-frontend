@@ -182,6 +182,8 @@ function App() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
+
+    // let previousMovieSearch;
     if (jwt) {
       mainApi
         .checkToken(jwt)
@@ -194,9 +196,9 @@ function App() {
               );
               setPreviousMovieSearch(previousMovieSearch);
               searchMovies(previousMovieSearch);
-              if (localStorage.isShortsChecked) {
-                setShortsSearch(true);
-              }
+              // if (localStorage.isShortsChecked) {
+              //   //setShortsSearch(true);
+              // }
             }
           }
           localStorage.removeItem("isShortsChecked");
@@ -266,13 +268,18 @@ function App() {
   }
 
   function searchMovies(params) {
-
-    setIsLoading(true);
+    setIsShortsChecked(false); ///////////////////////////////////////
     // setMovies([]);
     setNotFound(false);
-
+    setIsLoading(true);
     localStorage.setItem("movieSearch", JSON.stringify(params));
     let searchResult;
+
+    const previousMovieSearch = JSON.parse(
+      localStorage.getItem("movieSearch")
+    );
+    setPreviousMovieSearch(previousMovieSearch);
+    //searchMovies(previousMovieSearch);
 
     if (/* allMovies.length === 0 */ !localStorage.movies) {
       moviesApi
@@ -281,7 +288,7 @@ function App() {
           // setAllMovies(movies);
           // const searchResult = handleMoviesSearch(movies, params);
           localStorage.setItem("movies", JSON.stringify(/* movies */ res));
-          searchResult = /* movies */ res.filter((movie) => {
+          searchResult = res.filter((movie) => {
             return movie.nameRU
               .toLowerCase()
               .includes(params.trim().toLowerCase());
@@ -289,12 +296,14 @@ function App() {
           setMoviesAmount(widthHandler);
           setTimeout(() => setIsLoading(false), 500);
           if (shortsSearch) {
+            setIsShortsChecked(true);
             const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
             setFilteredMovies(shorts);
             if (shorts.length === 0) {
               setNotFound(true);
             }
           } else {
+            setIsShortsChecked(false);
             setFilteredMovies(searchResult);
             if (searchResult.length === 0) {
               setNotFound(true);
@@ -316,7 +325,6 @@ function App() {
       );
       setMoviesAmount(widthHandler);
       setTimeout(() => setIsLoading(false), 500);
-
       if (shortsSearch) {
         const shorts = searchResult.filter((movie) => movie.duration <= SHORTS_DURATION);
         setFilteredMovies(shorts);
@@ -335,6 +343,7 @@ function App() {
   }
 
   function searchSavedMovies(params) {
+    setSavedShortsCheck(false); ///////////////////////////////////////////////////
     setNotFound(false);
     setIsLoading(true);
     const filterResults = JSON.parse(
@@ -389,6 +398,7 @@ function App() {
     setNotFound(false);
     if (savedShortsSearch) {
       setSavedShortsCheck(true);
+      localStorage.setItem("savedShortsCheck", "true"); /////////////////////////////
       const savedShorts = (savedMovies || []).filter(
         (movie) => movie.duration <= SHORTS_DURATION
       );
@@ -401,7 +411,7 @@ function App() {
       const savedFilms = JSON.parse(localStorage.getItem("savedMovies"));
       setSavedMovies(savedFilms);
       setSavedShortsCheck(false);
-      //localStorage.setItem("isShortsChecked", "false");
+      localStorage.setItem("savedShortsCheck", "false"); ///////////////////////////////////
     }
   }
 
