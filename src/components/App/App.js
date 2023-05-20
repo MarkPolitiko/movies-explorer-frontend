@@ -190,16 +190,16 @@ function App() {
         .then((res) => {
           if (res) {
             setIsLoggedIn(true);
-            if (localStorage.movieSearch) {
-              const previousMovieSearch = JSON.parse(
-                localStorage.getItem("movieSearch")
-              );
-              setPreviousMovieSearch(previousMovieSearch);
-              searchMovies(previousMovieSearch);
-              // if (localStorage.isShortsChecked) {
-              //   //setShortsSearch(true);
-              // }
-            }
+            // if (localStorage.movieSearch) {
+            //   const previousMovieSearch = JSON.parse(
+            //     localStorage.getItem("movieSearch")
+            //   );
+            //   setPreviousMovieSearch(previousMovieSearch);
+            //   searchMovies(previousMovieSearch);
+            //   // if (localStorage.isShortsChecked) {
+            //   //   //setShortsSearch(true);
+            //   // }
+            // }
           }
           localStorage.removeItem("isShortsChecked");
         })
@@ -275,7 +275,7 @@ function App() {
     localStorage.setItem("movieSearch", JSON.stringify(params));
     let searchResult;
 
-    const previousMovieSearch = JSON.parse(
+    let previousMovieSearch = JSON.parse(
       localStorage.getItem("movieSearch")
     );
     setPreviousMovieSearch(previousMovieSearch);
