@@ -450,7 +450,7 @@ function App() {
             (movie) => movie.movieId !== movieItem.id
           );
         } else {
-          updatedSavedMovies = savedMovies.filter(
+          updatedSavedMovies = getLocalSavedMovies.filter(
             (movie) => movie._id !== movieItem._id
           );
         }
