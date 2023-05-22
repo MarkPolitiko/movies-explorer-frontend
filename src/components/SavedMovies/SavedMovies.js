@@ -27,7 +27,7 @@ export default function SavedMovies(props) {
           movies={props.movies}
           button={props.button}
           onDeleteMovie={props.onDeleteMovie}
-          savedMovies={props.savedMovies}
+          //savedMovies={props.savedMovies}
         />
         )}
         <span

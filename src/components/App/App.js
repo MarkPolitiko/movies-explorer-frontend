@@ -46,17 +46,27 @@ function App() {
   const [isProfileRefreshSuccess, setIsProfileRefreshSuccess] = useState(false);
 
   const [showMovies, setShowMovies] = useState([]);
-  const [previousMovieSearch, setPreviousMovieSearch] = useState("");
+  const [previousMovieSearch, setPreviousMovieSearch] = useLocalStorage(
+    "previousMovieSearch",
+    ""
+  );
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [savedFilteredMovies, setSavedFilteredMovies] = useState([]);
 
   const [getLocalSavedMovies, setGetLocalSavedMovies] = useState([]); ///
 
   const [notFound, setNotFound] = useState(false);
 
-  const [shortsSearch, setShortsSearch] = useState(false);
+  const [shortsSearch, setShortsSearch] = useLocalStorage(
+    "shortsSearch",
+    false
+  );
   const [savedShortsSearch, setSavedShortsSearch] = useState(false);
-  const [isShortsChecked, setIsShortsChecked] = useState(false);
+  const [isShortsChecked, setIsShortsChecked] = useLocalStorage(
+    "isShortsChecked",
+    false
+  );
   const [savedShortsCheck, setSavedShortsCheck] = useState(false);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -240,7 +250,7 @@ function App() {
     setIsLoading(true);
 
     mainApi
-      .updateProfile(userData,localStorage.getItem("jwt"))
+      .updateProfile(userData, localStorage.getItem("jwt"))
       .then((res) => {
         setCurrentUser(
           /* res */ { name: res.name, email: res.email, _id: res._id }
@@ -261,7 +271,7 @@ function App() {
   function handleMoviesSave(movie) {
     // const token = localStorage.getItem("jwt");
     mainApi
-      .createMovie(movie,localStorage.getItem("jwt")) // тут правка
+      .createMovie(movie, localStorage.getItem("jwt")) // тут правка
       .then((savedMovie) => {
         const filmsSaveUpdate = [
           ...getLocalSavedMovies /* savedMovies */,
@@ -336,6 +346,7 @@ function App() {
       setMoviesAmount(widthHandler);
       setTimeout(() => setIsLoading(false), 500);
       if (shortsSearch) {
+        setIsShortsChecked(true);
         const shorts = searchResult.filter(
           (movie) => movie.duration <= SHORTS_DURATION
         );
@@ -352,10 +363,14 @@ function App() {
       handleMoviesRender(searchResult, moviesAmount);
       localStorage.setItem("filteredMovies", JSON.stringify(searchResult));
     }
+    shortsProvider();
   }
 
   function searchSavedMovies(params) {
-    setSavedShortsCheck(false);
+    if (!params) {
+      params = "";
+    }
+    //setSavedShortsCheck(false);
     setNotFound(false);
     setIsLoading(true);
     const filterResults = JSON.parse(
@@ -364,6 +379,13 @@ function App() {
       return movie.nameRU.toLowerCase().includes(params.trim().toLowerCase());
     });
     setSavedMovies(filterResults);
+    setSavedFilteredMovies(filterResults);
+    if (savedShortsSearch) {
+      const savedShorts = (filterResults || []).filter(
+        (movie) => movie.duration <= SHORTS_DURATION
+      );
+      setSavedMovies(savedShorts);
+    }
     if (filterResults.length === 0) {
       setNotFound(true);
     }
@@ -379,11 +401,14 @@ function App() {
   }, [shortsSearch]);
 
   function shortsProvider() {
-    setNotFound(false);
+    //setNotFound(false);
     if (shortsSearch) {
       setIsShortsChecked(true);
-      localStorage.setItem("isShortsChecked", "true");
-      const shorts = filteredMovies.filter(
+      //localStorage.setItem("isShortsChecked", "true");
+      const filteredMoviesFilter = JSON.parse(
+        localStorage.getItem("filteredMovies")
+      );
+      const shorts = filteredMoviesFilter.filter(
         (movie) => movie.duration <= SHORTS_DURATION
       );
       handleMoviesRender(shorts, moviesAmount);
@@ -396,7 +421,7 @@ function App() {
       );
       handleMoviesRender(allFilteredMovies, moviesAmount);
       setIsShortsChecked(false);
-      localStorage.setItem("isShortsChecked", "false");
+      //localStorage.setItem("isShortsChecked", "false");
     }
   }
 
@@ -412,7 +437,7 @@ function App() {
     setNotFound(false);
     if (savedShortsSearch) {
       setSavedShortsCheck(true);
-      localStorage.setItem("savedShortsCheck", "true");
+      //localStorage.setItem("savedShortsCheck", "true");
       const savedShorts = (savedMovies || []).filter(
         (movie) => movie.duration <= SHORTS_DURATION
       );
@@ -421,10 +446,14 @@ function App() {
         setNotFound(true);
       }
     } else {
-      const savedFilms = JSON.parse(localStorage.getItem("savedMovies"));
-      setSavedMovies(savedFilms);
+      //      const savedFilms = JSON.parse(localStorage.getItem("savedMovies"));
+      if (savedFilteredMovies.length !== 0) {
+        setSavedMovies(savedFilteredMovies);
+      } else {
+        setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+      }
       setSavedShortsCheck(false);
-      localStorage.setItem("savedShortsCheck", "false");
+      //localStorage.setItem("savedShortsCheck", "false");
     }
   }
 
@@ -442,7 +471,7 @@ function App() {
   function handleDeleteMovie(movieItem) {
     const checkId = handleIdCheck(movieItem);
     mainApi
-      .deleteMovie(checkId,localStorage.getItem("jwt"))
+      .deleteMovie(checkId, localStorage.getItem("jwt"))
       .then(() => {
         let updatedSavedMovies;
         if (location.pathname === "/movies") {
@@ -477,96 +506,94 @@ function App() {
 
   return (
     <>
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <Switch>
-          <Route exact path="/">
-            <Main isLoggedIn={isLoggedIn} />
-          </Route>
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="page">
+          <Switch>
+            <Route exact path="/">
+              <Main isLoggedIn={isLoggedIn} />
+            </Route>
 
-          <ProtectedRoute
-            //exact
-            isLoggedIn={isLoggedIn}
-            path="/movies"
-            component={Movies}
-            movies={showMovies}
-            isNotFound={notFound}
-            onSearchMovies={searchMovies}
-            onDeleteMovie={handleDeleteMovie}
-            onMovieSave={handleMoviesSave}
-            isLoading={isLoading}
-            showMore={handleMoviesAddition}
-            savedMovies={getLocalSavedMovies} //
-            onShortsSwitch={shortsSwitchCheck}
-            isChecked={isShortsChecked}
-            previousMovieSearch={previousMovieSearch}
-            moreMovies={moreMovies}
-          />
-
-          <ProtectedRoute
-            //exact
-            path="/saved-movies"
-            isLoggedIn={isLoggedIn}
-            component={SavedMovies}
-            movies={savedMovies} ///
-            onSearchMovies={searchSavedMovies}
-            onDeleteMovie={handleDeleteMovie}
-            isLoading={isLoading}
-            isNotFound={notFound}
-            savedMovies={savedMovies} //
-            movieSearch={shortsSearch}
-            onShortsSwitch={savedShortsCheckClick}
-            savedIsChecked={savedShortsCheck}
-          />
-
-          <ProtectedRoute
-            exact
-            path="/profile"
-            component={Profile}
-            handleLogOut={handleLogOut}
-            isLoading={isLoading}
-            onUpdateProfile={handleUserProfile}
-            profileMessage={profileMessage}
-            isProfileRefreshSuccess={isProfileRefreshSuccess}
-            profileErrMessage={profileErrMessage}
-            isLoggedIn={isLoggedIn}
-          />
-
-          <Route path="/signup">
-            {isLoggedIn ? (
-              <Redirect to="/movies" />
-            ) : (
-              <Register
-                onRegister={handleRegister}
-                regErrMessage={regErrMessage}
-                isLoading={isLoading}
-                resMessage={profileMessage}
-                isRegSuccess={isRegSuccess}
-                profileMessage={profileMessage} //
-                profileErrMessage={profileErrMessage} //
-              />
-            )}
-          </Route>
-
-          <Route path="/signin">
-          {isLoggedIn ? (
-              <Redirect to="/" />
-            ) : (
-            <Login
-              onLogin={handleLogin}
-              loginErrMessage={loginErrMessage}
+            <ProtectedRoute
+              exact
+              isLoggedIn={isLoggedIn}
+              path="/movies"
+              component={Movies}
+              movies={showMovies}
+              isNotFound={notFound}
+              onSearchMovies={searchMovies}
+              onDeleteMovie={handleDeleteMovie}
+              onMovieSave={handleMoviesSave}
               isLoading={isLoading}
-              loginErr={loginErr}
+              showMore={handleMoviesAddition}
+              savedMovies={getLocalSavedMovies} //
+              onShortsSwitch={shortsSwitchCheck}
+              isChecked={isShortsChecked}
+              previousMovieSearch={previousMovieSearch}
+              moreMovies={moreMovies}
             />
-            )}
-          </Route>
 
-          <Route path="*">
-            <NotFoundPage />
-          </Route>
-        </Switch>
-      </div>
-    </CurrentUserContext.Provider>
+            <ProtectedRoute
+              exact
+              path="/saved-movies"
+              isLoggedIn={isLoggedIn}
+              component={SavedMovies}
+              movies={savedMovies} ///
+              onSearchMovies={searchSavedMovies}
+              onDeleteMovie={handleDeleteMovie}
+              isLoading={isLoading}
+              isNotFound={notFound}
+              onShortsSwitch={savedShortsCheckClick}
+              savedIsChecked={savedShortsCheck}
+            />
+
+            <ProtectedRoute
+              exact
+              path="/profile"
+              component={Profile}
+              handleLogOut={handleLogOut}
+              isLoading={isLoading}
+              onUpdateProfile={handleUserProfile}
+              profileMessage={profileMessage}
+              isProfileRefreshSuccess={isProfileRefreshSuccess}
+              profileErrMessage={profileErrMessage}
+              isLoggedIn={isLoggedIn}
+            />
+
+            <Route path="/signup">
+              {isLoggedIn ? (
+                <Redirect to="/movies" />
+              ) : (
+                <Register
+                  onRegister={handleRegister}
+                  regErrMessage={regErrMessage}
+                  isLoading={isLoading}
+                  resMessage={profileMessage}
+                  isRegSuccess={isRegSuccess}
+                  profileMessage={profileMessage} //
+                  profileErrMessage={profileErrMessage} //
+                />
+              )}
+            </Route>
+
+            <Route path="/signin">
+              {isLoggedIn ? (
+                <Redirect to="/" />
+              ) : (
+                <Login
+                  onLogin={handleLogin}
+                  loginErrMessage={loginErrMessage}
+                  isLoading={isLoading}
+                  loginErr={loginErr}
+                />
+              )}
+            </Route>
+
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </div>
+      </CurrentUserContext.Provider>
     </>
   );
 }
