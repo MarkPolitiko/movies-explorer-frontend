@@ -1,0 +1,124 @@
+.profile {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.profile__container {
+  padding: 70px 0 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__header {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.profile__inputs-container {
+  margin: 90px auto 200px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile__label:first-child {
+	border-bottom: 1px solid #E8E8E8;
+}
+
+.profile__input {
+  padding: 17px 0 16px;
+  color: #000;
+  border: none;
+  text-align: right;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile__error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  display: none;
+  flex-direction: column;
+  max-width: 396px;
+  margin-bottom: 10px;
+}
+.profile__error_active {
+  display: flex;
+}
+
+.profile__message {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF4062;
+  display: none;
+  flex-direction: column;
+  max-width: 396px;
+  margin-bottom: 10px;
+}
+
+.profile__message_active {
+  display: flex;
+}
+
+.profile__message_success {
+  display: flex;
+  color: #2be04f;
+}
+
+.profile__buttons-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__button {
+  padding-bottom: 16px;
+  border: none;
+  background-color: #fff;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.profile__button_red {
+  padding-bottom: 0;
+  font-weight: 500;
+  color: #FF4062;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__container {
+    margin: 160px auto 269px;
+  }
+
+  .profile__inputs-container {
+    margin: 60px auto 190px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .profile__container {
+    margin: 0 auto 40px;
+    padding-top: 50px;
+  }
+
+  .profile__inputs-container {
+    margin: 40px auto 370px;
+    width: 260px;
+  }
+}

@@ -1,0 +1,134 @@
+.about-project {
+  margin: 0 auto;
+  padding: 110px 60px 110px 70px;
+  max-width: 1280px;
+  box-sizing: border-box;
+  color: #000;
+  background-color: #fff;
+}
+
+.about-project__info {
+  margin: 0;
+  padding: 70px 0 110px;
+  display: flex;
+  list-style: none;
+}
+
+.about-project__title {
+  margin: 0;
+  padding-bottom: 26px;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.about-project__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__schedule {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 2fr;
+}
+
+.about-project__schedule_cell {
+  margin: 0;
+  text-align: center;
+  color: #A0A0A0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.about-project__schedule_cell_black {
+  padding: 9px 0;
+  color: #fff;
+  background-color: #000;
+}
+
+.about-project__schedule_cell_grey {
+  padding: 9px 0;
+  color: #000;
+  background-color: #F2F2F2;
+}
+
+.about-project__schedule_cell_tech {
+  padding: 14px 0 0;
+}
+
+@media screen and (max-width: 800px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+
+  .about-project__info {
+    padding-bottom: 93px;
+    gap: 35px;
+  }
+
+  .about-project__title {
+    padding-bottom: 22px;
+  }
+
+  .about-project__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__schedule {
+    grid-template-columns: 1fr 3.6fr;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .about-project {
+    padding: 70px 18px;
+  }
+
+  .about-project__info {
+    padding-top: 60px;
+    padding-bottom: 4px;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .about-project__title {
+    padding-bottom: 16px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .about-project__text {
+    font-size: 11px;
+    line-height: 16px;
+    padding-bottom: 0;
+  }
+
+  .about-project__schedule_cell {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .about-project__schedule {
+    padding-top: 55px;
+    grid-template-columns: 1fr 1.85fr;
+  }
+
+  .about-project__schedule_cell_black {
+    padding: 11px 0;
+  }
+
+  .about-project__schedule_cell_grey {
+    padding: 11px 0;
+  }
+
+  .about-project__schedule_cell_tech {
+    padding: 10px 0 0;
+  }
+}
